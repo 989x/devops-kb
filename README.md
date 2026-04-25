@@ -8,7 +8,7 @@ created: 2026-04-25
 
 # DEVOPS-KB
 
-Knowledge base รวม DevOps practices, cloud infrastructure, containers, และ service integrations ที่ใช้งานในองค์กร
+Knowledge base for DevOps and backend engineering — cloud infrastructure, containers, service integrations, security, and internal standards
 
 ---
 
@@ -16,12 +16,19 @@ Knowledge base รวม DevOps practices, cloud infrastructure, containers, แ
 
 ```
 DEVOPS-KB/
+├── 00-meta/           # Platform & KB documentation
 ├── 01-cloud/          # Cloud providers & infrastructure
 ├── 02-containers/     # Docker & Kubernetes
 ├── 04-service-apis/   # Third-party service integrations
 ├── 05-security/       # Security scanning & hardening
 └── 06-prompts/        # Personal AI prompts & conventions
 ```
+
+---
+
+## 00-meta
+
+- [[mnlab_overview]] — MNLAB platform overview, tech stack, and vision
 
 ---
 
