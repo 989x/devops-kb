@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "README.md",
-                "mode": "preview",
+                "file": "04-service-apis/go-fiber/fiber_upload_image.md",
+                "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "README"
+              "title": "fiber_upload_image"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "README.md",
+                "file": "04-service-apis/go-fiber/fiber_upload_image.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for README"
+              "title": "Backlinks for fiber_upload_image"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "README.md",
+                "file": "04-service-apis/go-fiber/fiber_upload_image.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from README"
+              "title": "Outgoing links from fiber_upload_image"
             }
           },
           {
@@ -156,13 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "README.md",
+                "file": "04-service-apis/go-fiber/fiber_upload_image.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of README"
+              "title": "Outline of fiber_upload_image"
             }
           }
         ]
@@ -185,11 +185,16 @@
   },
   "active": "72ff21e30481908e",
   "lastOpenFiles": [
-    "01-cloud/openlandscape/linux-package-management.md",
+    "README.md",
+    "04-service-apis/go-fiber/fiber_upload_image.md",
+    "04-service-apis/go-fiber/_index.md",
     "01-cloud/openlandscape/linux_package_management.md",
+    "04-service-apis/go-fiber/_index",
+    "04-service-apis/go-fiber",
     "01-cloud/openlandscape/linux_network_basics.md",
     "01-cloud/openlandscape/linux_log_and_system_info.md",
     "01-cloud/openlandscape/linux_basics.md",
+    "01-cloud/openlandscape/linux-package-management.md",
     "01-cloud/openlandscape/linux-network-basics.md",
     "01-cloud/openlandscape/linux-log-and-system-info.md",
     "01-cloud/openlandscape/linux-basics.md",
@@ -198,7 +203,6 @@
     "00-meta/mnlab_overview.md",
     "assets/mnlab/mnlab_website.webp",
     "assets/mnlab/mini-terminal.webp",
-    "README.md",
     "assets/mnlab",
     "assets",
     "00-meta"
