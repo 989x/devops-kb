@@ -49,7 +49,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "https://www.reddit.com/r/windowsinsiders/comments/1pk9ifs/windows_server_2025_or_2024_arm64_vhdxiso_for",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -70,7 +70,8 @@
               "title": "Bookmarks"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -178,8 +179,14 @@
       "bases:Create new base": false
     }
   },
-  "active": "72ff21e30481908e",
+  "active": "760e3b7b2916d092",
   "lastOpenFiles": [
+    "07-vm/_index.md",
+    "07-vm/_index",
+    "07-vm/vm_windows_server_utm_setup.md",
+    "07-vm/vm_kali_utm_setup.md",
+    "07-vm/kali-utm-setup.md",
+    "07-vm",
     "03-internal-services/redis-management/future_features.md",
     "03-internal-services/redis-management/concept_key_counting.md",
     "03-internal-services/redis-management/concept_architecture.md",
@@ -207,15 +214,9 @@
     "01-cloud/openlandscape/load-balance/_index.md",
     "00-meta/mnlab_overview.md",
     "01-cloud/openlandscape/proxmox/infra_proxmox_fix_swap.md",
-    "01-cloud/openlandscape/proxmox/_index.md",
     "01-cloud/openlandscape/load-balance",
     "01-cloud/openlandscape/proxmox",
     "01-cloud/openlandscape/k8s-setup/tool_k8s_preflight.sh",
-    "01-cloud/openlandscape/k8s-setup/tool_k8s_port_guard.sh",
-    "01-cloud/openlandscape/k8s-setup/tool_k8s_preflight_tools.md",
-    "01-cloud/openlandscape/k8s-setup/infra_k8s_haproxy_lb.md",
-    "01-cloud/openlandscape/k8s-setup/infra_k8s_control_plane.md",
-    "01-cloud/openlandscape/k8s-setup/infra_k8s_cleanup_kubeadm.com",
     "assets/mnlab/mnlab_website.webp",
     "assets/mnlab/mini-terminal.webp"
   ]

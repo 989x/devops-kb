@@ -16,12 +16,14 @@ Knowledge base for DevOps and backend engineering — cloud infrastructure, cont
 
 ```
 DEVOPS-KB/
-├── 00-meta/           # Platform & KB documentation
-├── 01-cloud/          # Cloud providers & infrastructure
-├── 02-containers/     # Docker & Kubernetes
-├── 04-service-apis/   # Third-party service integrations
-├── 05-security/       # Security scanning & hardening
-└── 06-prompts/        # Personal AI prompts & conventions
+├── 00-meta/               # Platform & KB documentation
+├── 01-cloud/              # Cloud providers & infrastructure
+├── 02-containers/         # Docker & Kubernetes
+├── 03-internal-services
+├── 04-service-apis/       # Third-party service integrations
+├── 05-security/           # Security scanning & hardening
+├── 06-prompts/            # Personal AI prompts & conventions
+└── 07-vm/                 # Virtual machines on macOS (UTM)
 ```
 
 ---
@@ -108,3 +110,10 @@ DEVOPS-KB/
 - [[personal_commit]] — Prompt สำหรับเขียน commit message
 - [[personal_kb_restructure]] — Prompt สำหรับ restructure KB
 - [[personal_nextjs]] — Prompt สำหรับ Next.js
+
+---
+
+## 07-vm
+
+- [[vm_kali_utm_setup]] — ติดตั้ง Kali Linux บน UTM (Apple Silicon)
+- [[vm_windows_server_utm_setup]] — ติดตั้ง Windows Server บน UTM (Apple Silicon)
