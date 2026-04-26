@@ -39,3 +39,6 @@ folder นี้ตั้งใจให้ครอบคลุม **ทุก 
 
 ### Services
 - [[picshare/_index]] — Image upload service prototype
+
+### Archived
+- [[redis-management/_index]] — Redis cache management UI (deprecated — ใช้ Redis Insight แทน)
