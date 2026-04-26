@@ -1,24 +1,28 @@
-# linux-network-basics.md
+---
+title: Linux Network Basics
+tags: [linux, openlandscape, network]
+type: guide
+status: stable
+created: 2026-04-26
+---
 
-## Check the machine's IP address
+# Linux Network Basics
 
-Show all network interfaces and IP addresses:
+## Check IP Address
 
 ```bash
+# แสดง network interfaces และ IP ทั้งหมด
 ip addr
-```
 
-Show IPv4 addresses only:
-
-```bash
+# แสดงเฉพาะ IPv4
 hostname -I
 ```
 
-(Older systems may use `ifconfig`.)
+> ระบบเก่าอาจใช้ `ifconfig` แทน
 
 ## DNS & Host Configuration
 
-### Check the DNS in use
+### ดู DNS ที่ใช้งานอยู่
 
 ```bash
 cat /etc/resolv.conf
@@ -26,6 +30,7 @@ cat /etc/resolv.conf
 # nameserver 127.0.0.53
 # options edns0 trust-ad
 ```
+
 ### Map hosts (/etc/hosts)
 
 ```bash
@@ -35,60 +40,61 @@ sudo vi /etc/hosts
 # 127.0.0.1 localhost
 ```
 
-### Add a hostname
+### ตั้ง hostname
 
 ```bash
+# ดู hostname ปัจจุบัน
 hostname
-# Example output (shows current hostname):
+# Example output:
 # lab-poc-nfs
 
+# เปลี่ยน hostname
 sudo hostnamectl set-hostname myserver
-# Re-login or reboot may be required to see it everywhere.
+# อาจต้อง re-login หรือ reboot เพื่อให้มีผลทุกที่
 ```
 
 ## DNS & Network Diagnostics
 
-### DNS Lookup
-
-#### Using `dig`:
+### dig
 
 ```bash
 dig example.com
-# Example (short):
+
+# Short output
 dig +short example.com
-# Example (MX):
+
+# MX record
 dig MX example.com
 ```
 
-#### Using `nslookup`:
+### nslookup
 
 ```bash
 nslookup example.com
-# Specify DNS:
+
+# ระบุ DNS server
 nslookup example.com 8.8.8.8
 ```
 
-#### Using `host`:
+### host
 
 ```bash
 host example.com
-# Only A record (IP):
+
+# เฉพาะ A record
 host -t A example.com
 ```
 
 ### Traceroute
 
 ```bash
-# Install (Ubuntu/Debian):
+# ติดตั้ง (Ubuntu/Debian)
 sudo apt install traceroute
-# Run:
-traceroute example.com
-# Example output:
-# Command 'traceroute' not found, but can be installed with:
-# sudo apt install inetutils-traceroute  # version 2:2.2-2ubuntu0.1, or
-# sudo apt install traceroute            # version 1:2.1.0-2
 
-# Alternative:
+# รัน
+traceroute example.com
+
+# ทางเลือกที่ไม่ต้องติดตั้ง
 tracepath example.com
 # Example output:
 #  1?: [LOCALHOST]                      pmtu 1500
@@ -99,42 +105,44 @@ tracepath example.com
 #  4:  203-150-215-110.inter.net.th                          1.077ms asymm  5
 ```
 
-## Change SSH port
+## Change SSH Port
 
 ```bash
-# Edit SSH server config:
+# แก้ไข SSH config
 sudo vi /etc/ssh/sshd_config
-# Change from:
+# เปลี่ยนจาก:
 #   #Port 22
-# to:
+# เป็น:
 #   Port 2222
 
-# Restart SSH:
+# Restart SSH
 sudo systemctl restart sshd
-# or (Ubuntu/Debian):
+# หรือ (Ubuntu/Debian)
 sudo systemctl restart ssh
 
-# Allow firewall (UFW example):
+# เปิด firewall (UFW)
 sudo ufw allow 2222/tcp
 
-# Next time connect:
-ssh -p 2222 user@server-ip
+# Connect ด้วย port ใหม่
+ssh -p 2222 user@<SERVER_IP>
 ```
 
-## Test connectivity to a specific port (telnet)
+## Test Port Connectivity (telnet)
 
 ```bash
-# Install:
+# ติดตั้ง
 sudo apt install telnet    # Ubuntu / Debian
 sudo yum install telnet    # CentOS / RHEL
 
-# Test connection:
+# ทดสอบ
 telnet 103.138.176.223 80
-# Example result:
+# Example output:
 # Trying 103.138.176.223...
 # Connected to 103.138.176.223.
-# Meaning:
-#  - Connected → port open
-#  - Connection refused → service not listening
-#  - Timed out → firewall or routing issue
 ```
+
+| Result | ความหมาย |
+|--------|---------|
+| Connected | Port เปิดอยู่ |
+| Connection refused | Service ไม่ได้ listen |
+| Timed out | Firewall หรือ routing issue |

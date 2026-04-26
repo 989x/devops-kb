@@ -1,51 +1,44 @@
-# linux-log-and-system-info.md
+---
+title: Linux Log and System Information
+tags: [linux, openlandscape, monitoring]
+type: guide
+status: stable
+created: 2026-04-26
+---
+
+# Linux Log and System Information
 
 ## System Time
 
-### Check the current system time
-
 ```bash
+# ดู current time
 date
 # Example output:
 # Mon Nov 10 22:15:42 +07 2025
-```
 
-Show detailed time settings (timezone, NTP status):
-
-```bash
+# ดูรายละเอียด timezone และ NTP status
 timedatectl
-```
 
-Set timezone (example: Bangkok):
-
-```bash
+# ตั้ง timezone (Bangkok)
 sudo timedatectl set-timezone Asia/Bangkok
 ```
 
-## Resource Usage (CPU / RAM / Disk)
+## Resource Usage
 
-### CPU Usage
-
-View current CPU load and processes:
+### CPU
 
 ```bash
+# ดู CPU load และ processes
 top
-# In top:
-#   - Press P to sort by CPU
-#   - Press M to sort by memory
-```
+# ใน top: P = sort by CPU, M = sort by memory
 
-Load averages:
-
-```bash
+# ดู load averages
 uptime
 # Example output:
 # 14:32:10 up 10 days,  2:15,  2 users,  load average: 0.35, 0.40, 0.25
 ```
 
-### RAM Usage
-
-Quick summary:
+### RAM
 
 ```bash
 free -h
@@ -55,37 +48,25 @@ free -h
 # Swap:         2.0Gi       0.0Gi       2.0Gi
 ```
 
-### Disk Usage
-
-View mounted filesystems:
+### Disk
 
 ```bash
+# ดู mounted filesystems
 df -h
-```
 
-Check root filesystem:
-
-```bash
+# ดู root filesystem
 df -h /
-```
 
-Check directory usage (example: `/var`):
-
-```bash
+# ดู directory usage
 sudo du -sh /var/*
-```
 
-View block devices and partitions:
-
-```bash
+# ดู block devices และ partitions
 lsblk
 ```
 
 ## Processes & Ports
 
-### Check listening network ports
-
-Show all listening TCP/UDP ports + processes:
+### ดู listening ports
 
 ```bash
 sudo lsof -i -P -n | grep LISTEN
@@ -96,39 +77,26 @@ sudo lsof -i -P -n | grep LISTEN
 # docker-pr  49345  root  7u  IPv6  97133  0t0  TCP *:443 (LISTEN)
 ```
 
-### Terminate processes
-
-#### Kill process by port using `fuser`
-
-Terminate all processes using a port:
+### Kill process by port
 
 ```bash
+# ดู process ที่ใช้ port
+sudo fuser -v 8888/tcp
+
+# Kill process ที่ใช้ port
 sudo fuser -k 8888/tcp
 ```
 
-Check processes that use the port:
+### Kill process by PID
 
 ```bash
-sudo fuser -v 8888/tcp
-```
-
-#### Kill a process by PID
-
-List processes:
-
-```bash
+# ดู processes ทั้งหมด
 ps -a
-```
 
-Search by name:
-
-```bash
+# ค้นหาตามชื่อ
 ps -a | grep "<process-name>"
-```
 
-Kill:
-
-```bash
+# Kill
 kill <PID>
 sudo kill <PID>
 ```
@@ -137,44 +105,63 @@ sudo kill <PID>
 
 ### Ubuntu / Debian
 
-Live view:
-
 ```bash
+# Live view
 sudo tail -f /var/log/auth.log
-```
 
-Filter for SSH:
-
-```bash
+# Filter SSH
 sudo grep sshd /var/log/auth.log
 ```
 
 ### CentOS / RHEL
 
-Live view:
-
 ```bash
+# Live view
 sudo tail -f /var/log/secure
-```
 
-Filter SSH:
-
-```bash
+# Filter SSH
 sudo grep sshd /var/log/secure
 ```
 
-### Using `journalctl` (systemd)
-
-View logs:
+### journalctl (systemd)
 
 ```bash
+# ดู logs
 sudo journalctl -u ssh
-# or
+# หรือ
 sudo journalctl -u sshd
-```
 
-Follow real-time:
-
-```bash
+# Follow real-time
 sudo journalctl -u ssh -f
 ```
+
+## VM Provider Detection
+
+### วิธีที่แนะนำ (ต้องการ sudo)
+
+```bash
+sudo dmidecode -s system-manufacturer
+sudo dmidecode -s system-product-name
+```
+
+| Output | Provider |
+|--------|---------|
+| `Amazon EC2` | ✅ AWS |
+| `Google Compute Engine` | ✅ GCP |
+| `Microsoft Corporation` / `Virtual Machine` | ✅ Azure |
+
+### วิธีที่ไม่ต้องใช้ sudo
+
+```bash
+cat /sys/class/dmi/id/sys_vendor
+cat /sys/class/dmi/id/product_name
+```
+
+| sys_vendor / product_name | Meaning |
+|--------------------------|---------|
+| `QEMU` / `Standard PC (i440FX + PIIX)` | KVM / On-prem / Private cloud |
+| `Amazon EC2` | AWS |
+| `Google` | GCP |
+| `Microsoft Corporation` | Azure |
+
+> On-premise มักแสดง hypervisor ตรงๆ เช่น QEMU/KVM ส่วน public cloud มักซ่อนไว้

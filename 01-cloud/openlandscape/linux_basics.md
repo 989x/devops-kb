@@ -1,32 +1,14 @@
-# linux-basics.md
+---
+title: Linux Command Basics
+tags: [linux, openlandscape, basics]
+type: guide
+status: stable
+created: 2026-04-26
+---
 
-## Create a Folder
+# Linux Command Basics
 
-Create a single folder:
-
-```bash
-mkdir myfolder
-```
-
-Create nested folders in one command:
-
-```bash
-mkdir -p projects/2025/demo
-```
-
-## Display Your Current Path
-
-Show the full path of your current directory:
-
-```bash
-pwd
-# Example output:
-# /home/username/projects
-```
-
-## What Commands to Use
-
-Some core commands you will use all the time:
+## Core Commands
 
 ```bash
 pwd       # show current path
@@ -40,167 +22,122 @@ man ls    # open manual for 'ls'
 ls --help # quick help for 'ls'
 ```
 
+## Create a Folder
+
+```bash
+# Single folder
+mkdir myfolder
+
+# Nested folders in one command
+mkdir -p projects/2025/demo
+```
+
+## Display Current Path
+
+```bash
+pwd
+# Example output:
+# /home/username/projects
+```
+
 ## Write Text to a File
 
-Overwrite a file with new text:
-
 ```bash
+# Overwrite
 echo "First line" > notes.txt
-# notes.txt will contain:
-# First line
-```
 
-Append text to the end of a file:
-
-```bash
+# Append
 echo "Another line" >> notes.txt
-# Appends "Another line" as a new line to notes.txt
-```
 
-Create a file and type many lines (end with Ctrl+D):
-
-```bash
+# Type many lines (Ctrl+D to save and exit)
 cat > notes.txt
-# This is line 1
-# This is line 2
-# (Ctrl+D to save and exit)
 ```
 
-## How to Edit Text in a File
-
-Use a simple terminal editor like `nano`:
+## Edit a File
 
 ```bash
 nano notes.txt
-# Basic nano shortcuts:
-#   Ctrl+O  save (Write Out)
-#   Enter   confirm filename
-#   Ctrl+X  exit
+# Ctrl+O  save
+# Enter   confirm filename
+# Ctrl+X  exit
 ```
 
-(If `nano` is not installed, use another editor like `vim`.)
+> ถ้าไม่มี `nano` ให้ใช้ `vim` แทน
 
 ## Copy a File
 
-Copy a file to a new file name:
-
 ```bash
+# Copy to new filename
 cp source.txt backup.txt
-```
 
-Copy a file into a folder:
-
-```bash
+# Copy into folder
 cp notes.txt backup/notes.txt
-```
 
-Copy a folder and all its contents:
-
-```bash
+# Copy folder and all contents
 cp -r myfolder myfolder-backup
 ```
 
 ## Move a File
 
-Move a file into another folder:
-
 ```bash
+# Move into folder
 mv notes.txt backup/
-```
 
-Rename a file (same folder):
-
-```bash
+# Rename (same folder)
 mv oldname.txt newname.txt
-```
 
-Move and rename at the same time:
-
-```bash
+# Move and rename
 mv notes.txt archive/notes-2025.txt
 ```
 
 ## Delete a File
 
-Delete a single file:
-
 ```bash
+# Delete single file
 rm notes.txt
-```
 
-Ask for confirmation before deleting:
-
-```bash
+# Ask confirmation before delete
 rm -i notes.txt
-# Prompts: rm: remove regular file 'notes.txt'? y
-```
 
-Delete multiple files:
-
-```bash
+# Delete multiple files
 rm file1.txt file2.txt
 ```
 
-⚠️ **Warning:** `rm` does not go to a recycle bin. Be careful.
+> ⚠️ `rm` ไม่มี recycle bin ระวังก่อนรัน
 
 ## Delete a Folder
 
-Delete an empty folder:
-
 ```bash
+# Delete empty folder
 rmdir emptyfolder
-```
 
-Delete a folder and everything inside it:
-
-```bash
+# Delete folder and everything inside
 rm -r myfolder
-```
 
-Ask for confirmation on each file and folder:
-
-```bash
+# Ask confirmation on each item
 rm -ri myfolder
-# Prompts for each item before deletion
 ```
 
-⚠️ **Warning:** `rm -r` is dangerous. Double-check the folder name before running it.
+> ⚠️ `rm -r` อันตราย ตรวจสอบชื่อ folder ให้ดีก่อนรัน
 
-## How to Use curl
-
-Basic `curl` usage to show a webpage in the terminal:
+## curl
 
 ```bash
+# แสดง HTML ของ URL
 curl https://example.com
-# Prints the HTML to your terminal
-```
 
-Download a file with its original name:
-
-```bash
+# Download ด้วยชื่อไฟล์เดิม
 curl -O https://example.com/file.zip
-# Saves as: file.zip (original filename)
-```
 
-Download and save as a custom name:
-
-```bash
+# Download ด้วยชื่อที่กำหนดเอง
 curl -o myfile.zip https://example.com/file.zip
 # Saves as: myfile.zip
-```
 
-Call an API endpoint (GET request):
-
-```bash
+# GET request
 curl -X GET https://api.example.com/status
-# Example (abbreviated) response might be JSON
-```
 
-Send data with a POST request:
-
-```bash
+# POST request พร้อม JSON body
 curl -X POST https://api.example.com/login \
   -H "Content-Type: application/json" \
   -d '{"username": "user", "password": "secret"}'
-# Sends JSON payload to the API
 ```

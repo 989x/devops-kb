@@ -1,90 +1,98 @@
-# linux-package-management.md
+---
+title: Linux Package Management
+tags: [linux, openlandscape, package]
+type: guide
+status: stable
+created: 2026-04-26
+---
 
-## Package Installation and Management
+# Linux Package Management
 
-A **package manager** helps you install, update, and remove software.
+Package manager ช่วย install, update และ remove software
 
-Common package managers:
+| Distro | Package Manager |
+|--------|----------------|
+| Ubuntu / Debian | `apt` |
+| CentOS / RHEL / Amazon Linux (เก่า) | `yum` |
+| Fedora / RHEL ใหม่ | `dnf` |
 
-- **Ubuntu / Debian**: `apt`
-- **CentOS / RHEL / Amazon Linux (old)**: `yum`
-- **Fedora / newer RHEL-based**: `dnf`
-
-You only use **one** of these, depending on your Linux distribution.
-
-Check your distro:
+ตรวจสอบ distro ที่ใช้งาน
 
 ```bash
 cat /etc/os-release
-# Example (short):
+# Example output:
 # NAME="Ubuntu"
 # VERSION="22.04.5 LTS (Jammy Jellyfish)"
 # ID=ubuntu
 # VERSION_ID="22.04"
 ```
 
-## Upgrade all packages on the system
+## Upgrade All Packages
 
-### Ubuntu / Debian (apt)
+### Ubuntu / Debian
 
 ```bash
-# Update package list, then upgrade installed packages:
 sudo apt update
 sudo apt upgrade
-# Optional: include dependency changes/removals:
+
+# รวม dependency changes/removals
 sudo apt full-upgrade
 ```
 
-### CentOS / RHEL / Fedora (yum / dnf)
+### CentOS / RHEL / Fedora
 
 ```bash
-# Older systems:
+# ระบบเก่า
 sudo yum update
-# Newer systems:
+
+# ระบบใหม่
 sudo dnf upgrade
 ```
 
 ## Install nginx
 
-### Ubuntu / Debian (apt)
+### Ubuntu / Debian
 
 ```bash
-# Install nginx (update list first is recommended):
 sudo apt update
 sudo apt install nginx
-# Start and enable on boot:
+
+# Start และ enable on boot
 sudo systemctl enable --now nginx
-# Check status:
+
+# ตรวจสอบ status
 systemctl status nginx
 ```
 
-### CentOS / RHEL / Fedora (yum / dnf)
+### CentOS / RHEL / Fedora
 
 ```bash
-# Install nginx:
-sudo yum install nginx   # or: sudo dnf install nginx
-# Start and enable on boot:
+sudo yum install nginx   # หรือ: sudo dnf install nginx
+
+# Start และ enable on boot
 sudo systemctl enable --now nginx
-# Check status:
+
+# ตรวจสอบ status
 systemctl status nginx
 ```
 
 ## Remove nginx
 
-### Ubuntu / Debian (apt)
+### Ubuntu / Debian
 
 ```bash
-# Remove nginx (keep config files):
+# ลบ nginx แต่เก็บ config ไว้
 sudo apt remove nginx
-# Remove nginx and its config files:
+
+# ลบ nginx พร้อม config
 sudo apt purge nginx nginx-common
-# Clean unused packages:
+
+# ลบ unused packages
 sudo apt autoremove
 ```
 
-### CentOS / RHEL / Fedora (yum / dnf)
+### CentOS / RHEL / Fedora
 
 ```bash
-# Remove nginx:
-sudo yum remove nginx    # or: sudo dnf remove nginx
+sudo yum remove nginx    # หรือ: sudo dnf remove nginx
 ```
