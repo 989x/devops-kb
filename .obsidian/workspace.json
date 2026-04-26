@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "01-cloud/openlandscape/load-balance/infra_lb_haproxy_vip.md",
+                "file": "03-internal-services/picshare/ts_gofiber_upload.md",
                 "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "infra_lb_haproxy_vip"
+              "title": "ts_gofiber_upload"
             }
           }
         ]
@@ -156,13 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "01-cloud/openlandscape/load-balance/infra_lb_haproxy_vip.md",
+                "file": "03-internal-services/picshare/ts_gofiber_upload.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of infra_lb_haproxy_vip"
+              "title": "Outline of ts_gofiber_upload"
             }
           }
         ],
@@ -183,10 +183,23 @@
       "bases:Create new base": false
     }
   },
-  "active": "76741e6dcd603ae3",
+  "active": "72ff21e30481908e",
   "lastOpenFiles": [
-    "01-cloud/openlandscape/load-balance/infra_lb_web_servers_setup.md",
+    "03-internal-services/picshare/connect_gofiber_upload.md",
+    "03-internal-services/_index.md",
+    "03-internal-services/_index",
+    "03-internal-services/picshare/ts_gofiber_upload.md",
+    "04-service-apis/wasabi/wasabi_connect_nodejs.md",
+    "03-internal-services/picshare/_index.md",
+    "03-internal-services/picshare",
+    "03-internal-services/tool_lsof_process_port.md",
+    "03-internal-services/go-fiber/fiber_upload_image.md",
+    "03-internal-services/go-fiber/_index.md",
+    "03-internal-services/go-fiber",
+    "03-internal-services",
+    "04-service-apis/go-fiber/fiber_upload_image.md",
     "01-cloud/openlandscape/load-balance/infra_lb_haproxy_vip.md",
+    "01-cloud/openlandscape/load-balance/infra_lb_web_servers_setup.md",
     "01-cloud/openlandscape/proxmox/infra_proxmox_extend_filesystem.md",
     "01-cloud/openlandscape/_index.md",
     "02-containers/docker/ts_platform_mismatch.md",
@@ -206,21 +219,8 @@
     "01-cloud/openlandscape/k8s-setup/_index.md",
     "01-cloud/openlandscape/k8s-setup/infra_k8s_cleanup_kubeadm.com",
     "01-cloud/openlandscape/k8s-setup/infra_k8s_cleanup_kubeadm",
-    "01-cloud/openlandscape/k8s-setup/infra_k8s_control_plane",
-    "01-cloud/openlandscape/k8s-setup",
-    "04-service-apis/go-fiber/fiber_upload_image.md",
     "03-tools/tool_lsof_process_port.md",
-    "03-tools",
     "README.md",
-    "04-service-apis/go-fiber/_index.md",
-    "01-cloud/openlandscape/linux_package_management.md",
-    "04-service-apis/go-fiber/_index",
-    "01-cloud/openlandscape/linux_network_basics.md",
-    "01-cloud/openlandscape/linux_log_and_system_info.md",
-    "01-cloud/openlandscape/linux_basics.md",
-    "01-cloud/openlandscape/linux-package-management.md",
-    "01-cloud/openlandscape/linux-network-basics.md",
-    "01-cloud/openlandscape/linux-log-and-system-info.md",
     "assets/mnlab/mnlab_website.webp",
     "assets/mnlab/mini-terminal.webp"
   ]
