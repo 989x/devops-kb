@@ -11,10 +11,14 @@
             "id": "72ff21e30481908e",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
+              "type": "markdown",
+              "state": {
+                "file": "01-cloud/openlandscape/rke1_cert_checker_cronjob_troubleshooting.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "rke1_cert_checker_cronjob_troubleshooting"
             }
           }
         ]
@@ -49,7 +53,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "https://www.reddit.com/r/windowsinsiders/comments/1pk9ifs/windows_server_2025_or_2024_arm64_vhdxiso_for",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -70,8 +74,7 @@
               "title": "Bookmarks"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -153,12 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
+                "file": "01-cloud/openlandscape/rke1_cert_checker_cronjob_troubleshooting.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline"
+              "title": "Outline of rke1_cert_checker_cronjob_troubleshooting"
             }
           }
         ],
@@ -179,11 +183,14 @@
       "bases:Create new base": false
     }
   },
-  "active": "760e3b7b2916d092",
+  "active": "72ff21e30481908e",
   "lastOpenFiles": [
+    "03-internal-services/picshare/ts_gofiber_upload.md",
+    "03-internal-services/picshare/_index.md",
+    "03-internal-services/picshare/connect_gofiber_upload.md",
+    "07-vm/vm_windows_server_utm_setup.md",
     "07-vm/_index.md",
     "07-vm/_index",
-    "07-vm/vm_windows_server_utm_setup.md",
     "07-vm/vm_kali_utm_setup.md",
     "07-vm/kali-utm-setup.md",
     "07-vm",
@@ -192,12 +199,9 @@
     "03-internal-services/redis-management/concept_architecture.md",
     "03-internal-services/redis-management/_index.md",
     "03-internal-services/redis-management",
-    "03-internal-services/picshare/ts_gofiber_upload.md",
-    "03-internal-services/picshare/connect_gofiber_upload.md",
     "03-internal-services/_index.md",
     "03-internal-services/_index",
     "04-service-apis/wasabi/wasabi_connect_nodejs.md",
-    "03-internal-services/picshare/_index.md",
     "03-internal-services/picshare",
     "03-internal-services/tool_lsof_process_port.md",
     "03-internal-services/go-fiber/fiber_upload_image.md",
