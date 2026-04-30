@@ -41,22 +41,26 @@ graph LR
 ```mermaid
 graph TB
     Client["Client / Application"]
+    SVC["Headless Service: xops-svc-mysql\nclusterIP: None"]
+    POD["Pod: xops-sts-mysql-0"]
+    PVC["PVC: xops-pvc-mysql-xops-sts-mysql-0"]
+    PV["PersistentVolume"]
 
-    subgraph Namespace["namespace: cust-demo"]
-        HLS["Headless Service\nxops-svc-mysql\nclusterIP: None"]
+    NS["namespace: cust-demo"]:::label
+    STS["StatefulSet: xops-sts-mysql"]:::label
 
-        subgraph STS["StatefulSet: xops-sts-mysql"]
-            POD["Pod: xops-sts-mysql-0\ncontainer: mysql\nimage: sclorg/mysql-80-c9s"]
-        end
+    Client -->|"port 3306"| SVC
+    SVC -->|"DNS"| POD
+    POD -->|"/var/lib/mysql/data"| PVC
+    PVC -->|"Bound"| PV
 
-        PVC["PVC: xops-pvc-mysql-xops-sts-mysql-0\n1Gi / ReadWriteOnce"]
-        PV["PersistentVolume\nprovisioned by cluster"]
-    end
+    NS -.-> SVC
+    NS -.-> POD
+    NS -.-> PVC
+    NS -.-> PV
+    STS -.-> POD
 
-    Client -->|port 3306| HLS
-    HLS -->|DNS: xops-sts-mysql-0.xops-svc-mysql.cust-demo| POD
-    POD -->|volumeMount /var/lib/mysql/data| PVC
-    PVC -->|bound| PV
+    classDef label fill:none,stroke:#888,stroke-dasharray:4,color:#aaa
 ```
 
 ---
@@ -196,15 +200,22 @@ spec:
 
 ```mermaid
 flowchart LR
-    T1["1. เข้า Terminal\nWorkloads → Pods\n→ xops-sts-mysql-0\n→ Terminal"]
-    T2["2. Login MySQL\nmysql -u xopsuser\n-pxops5678 xopsdb"]
-    T3["3. ตรวจ database\nshow databases\nต้องเห็น xopsdb"]
-    T4["4. Insert data\nCREATE TABLE test\nINSERT INTO test"]
-    T5["5. Delete Pod\nActions → Delete Pod\nรอ Recreate"]
-    T6["6. ตรวจ data\nSELECT * FROM test\ndata ต้องยังอยู่"]
-
-    T1 --> T2 --> T3 --> T4 --> T5 --> T6
+    T1["เข้า Terminal"] --> T2["Login MySQL"]
+    T2 --> T3["show databases"]
+    T3 --> T4["CREATE + INSERT"]
+    T4 --> T5["Delete Pod"]
+    T5 --> T6["SELECT ตรวจ data"]
 ```
+
+| ขั้นตอน | คำสั่ง |
+|---|---|
+| Login MySQL | `mysql -u xopsuser -pxops5678 xopsdb` |
+| ตรวจ database | `show databases;` |
+| สร้าง table | `CREATE TABLE test (id INT, name VARCHAR(50));` |
+| Insert data | `INSERT INTO test VALUES (1, 'xops-test');` |
+| ตรวจ data | `SELECT * FROM test;` |
+| Delete Pod | Actions → Delete Pod → รอ Running |
+| ตรวจหลัง restart | `SELECT * FROM test;` — data ต้องยังอยู่ |
 
 ---
 

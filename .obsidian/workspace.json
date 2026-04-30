@@ -185,6 +185,7 @@
   },
   "active": "72ff21e30481908e",
   "lastOpenFiles": [
+    "01-cloud/openlandscape/prd-platform/image.png",
     "01-cloud/openlandscape/prd-platform/okd_daemonset_guid.md",
     "01-cloud/openlandscape/prd-platform/okd_statefulset_guid.md",
     "07-vm/_index.md",
@@ -219,7 +220,6 @@
     "01-cloud/openlandscape/lab-k8s-setup/_index.md",
     "01-cloud/openlandscape/lab-k8s-setup",
     "01-cloud/openlandscape/platform",
-    "01-cloud/openlandscape/rke1_cert_checker_cronjob_troubleshooting.md",
     "06-prompts/company_docs_operations",
     "assets/mnlab/mnlab_website.webp",
     "assets/mnlab/mini-terminal.webp"
