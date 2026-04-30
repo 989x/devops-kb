@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "01-cloud/openlandscape/rke1_cert_checker_cronjob_troubleshooting.md",
+                "file": "01-cloud/openlandscape/hpa_okd_guide.md",
                 "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "rke1_cert_checker_cronjob_troubleshooting"
+              "title": "hpa_okd_guide"
             }
           }
         ]
@@ -156,13 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "01-cloud/openlandscape/rke1_cert_checker_cronjob_troubleshooting.md",
+                "file": "01-cloud/openlandscape/hpa_okd_guide.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of rke1_cert_checker_cronjob_troubleshooting"
+              "title": "Outline of hpa_okd_guide"
             }
           }
         ],
@@ -185,6 +185,10 @@
   },
   "active": "72ff21e30481908e",
   "lastOpenFiles": [
+    "01-cloud/openlandscape/rke1_cert_checker_cronjob_troubleshooting.md",
+    "06-prompts/company_docs_operations.md",
+    "06-prompts/company_docs_operations",
+    "01-cloud/openlandscape/hpa_okd_guide.md",
     "03-internal-services/picshare/ts_gofiber_upload.md",
     "03-internal-services/picshare/_index.md",
     "03-internal-services/picshare/connect_gofiber_upload.md",
@@ -215,12 +219,8 @@
     "01-cloud/openlandscape/_index.md",
     "02-containers/docker/ts_platform_mismatch.md",
     "2026-04-26.md",
-    "01-cloud/openlandscape/load-balance/_index.md",
-    "00-meta/mnlab_overview.md",
-    "01-cloud/openlandscape/proxmox/infra_proxmox_fix_swap.md",
     "01-cloud/openlandscape/load-balance",
     "01-cloud/openlandscape/proxmox",
-    "01-cloud/openlandscape/k8s-setup/tool_k8s_preflight.sh",
     "assets/mnlab/mnlab_website.webp",
     "assets/mnlab/mini-terminal.webp"
   ]
