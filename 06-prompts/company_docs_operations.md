@@ -9,19 +9,49 @@
 
 ---
 
+## ⚠️ ก่อนสร้างไฟล์ทุกครั้ง
+
+ถามผู้ใช้ก่อนเสมอว่า:
+
+> **"เอกสารนี้เป็นส่วนตัว หรือบริษัท?"**
+> - **ส่วนตัว** → ใช้ theme Personal (สีเทา)
+> - **บริษัท** → ใช้ theme Company (สีเขียว OpenLandscape)
+
+---
+
 ## Design System
 
 ### Typography
 
-| Element           | Font        | Size | Weight | Color   |
-|-------------------|-------------|------|--------|---------|
-| Body              | Arial       | 22   | Normal | #333333 |
-| H1                | Arial       | 30   | Bold   | #111111 |
-| H2                | Arial       | 24   | Bold   | #444444 |
-| H3                | Arial       | 22   | Bold   | #333333 |
-| Note              | Arial       | 22   | Normal | #333333 |
-| Code              | Courier New | 18   | Normal | #2E2E2E |
-| Image placeholder | Arial       | 20   | Normal | #BBBBBB |
+> ⚠️ **กฎสำคัญ:** สีเขียวใช้เฉพาะ **Heading (H1, H2, H3) เท่านั้น**
+> Body, Note, Bullet, Step, Image placeholder ต้องเป็นสีเทาเข้มเสมอ ทั้งสอง theme
+
+#### Personal (ส่วนตัว)
+
+| Element           | Font        | Size | Weight | Color     |
+|-------------------|-------------|------|--------|-----------|
+| Body              | Arial       | 22   | Normal | `#333333` |
+| H1                | Arial       | 30   | Bold   | `#111111` |
+| H2                | Arial       | 24   | Bold   | `#444444` |
+| H3                | Arial       | 22   | Bold   | `#333333` |
+| Note              | Arial       | 22   | Normal | `#333333` |
+| Code              | Courier New | 18   | Normal | `#2E2E2E` |
+| Image placeholder | Arial       | 20   | Normal | `#BBBBBB` |
+
+- Code block background: `#F5F5F5`
+- Image placeholder: centered, no background
+
+#### Company (บริษัท — OpenLandscape)
+
+| Element           | Font        | Size | Weight | Color     |
+|-------------------|-------------|------|--------|-----------|
+| Body              | Arial       | 22   | Normal | `#333333` |
+| H1                | Arial       | 30   | Bold   | `#1E3A0A` |
+| H2                | Arial       | 24   | Bold   | `#3A5E18` |
+| H3                | Arial       | 22   | Bold   | `#2D4A1A` |
+| Note              | Arial       | 22   | Normal | `#333333` |
+| Code              | Courier New | 18   | Normal | `#2E2E2E` |
+| Image placeholder | Arial       | 20   | Normal | `#BBBBBB` |
 
 - Code block background: `#F5F5F5`
 - Image placeholder: centered, no background
@@ -45,10 +75,27 @@
 
 ### Table
 
-- **Header:** bg `#333333` / text white / bold / Arial 20
-- **Row odd:** `#FFFFFF` / **Row even:** `#F9F9F9`
-- **Border:** `SINGLE` size 1 color `#E0E0E0`
-- **Cell padding:** top/bottom 80 / left/right 140
+#### Personal
+
+| Element     | Value                           |
+|-------------|--------------------------------|
+| Header bg   | `#333333`                       |
+| Header text | white / bold / Arial 20         |
+| Row odd     | `#FFFFFF`                       |
+| Row even    | `#F9F9F9`                       |
+| Border      | `SINGLE` size 1 color `#E0E0E0` |
+
+#### Company
+
+| Element     | Value                           |
+|-------------|--------------------------------|
+| Header bg   | `#78B52D`                       |
+| Header text | white / bold / Arial 20         |
+| Row odd     | `#FFFFFF`                       |
+| Row even    | `#F4FAF0`                       |
+| Border      | `SINGLE` size 1 color `#C5E0A0` |
+
+- **Cell padding (ทั้งสอง theme):** top/bottom 80 / left/right 140
 - **Total column width:** รวมกันควรได้ ~9026 DXA
 
 ---
@@ -66,18 +113,19 @@ Heading 3 — ใช้ label ก่อน code block เช่น `"YAML — De
 ขนาดเท่า body แต่ bold เพื่อไม่ให้หนักเกินไป
 
 ### `para(text)`
-ข้อความ body ทั่วไป — ใช้อธิบายภาพรวมของแต่ละ section ก่อนลงรายละเอียด
+ข้อความ body ทั่วไป — สี `#333333` ทั้งสอง theme
 
 ### `note(text)`
-ข้อความหมายเหตุ — prefix ด้วย `"หมายเหตุ: "` อัตโนมัติ  
-ใช้บอกข้อควรระวัง ข้อกำหนด หรือเงื่อนไขพิเศษ  
+ข้อความคำอธิบายเพิ่มเติม — ไม่มี prefix, ไม่มี label นำหน้า  
+สี `#333333` เหมือน body ใช้บอกข้อควรระวังหรือเงื่อนไขพิเศษ  
 ไม่ใช้ background color หรือ italic เพื่อให้ดู clean
 
 ### `bullet(text)`
-Bullet list ใช้ dash `–` — เหมาะกับรายการที่ไม่มีลำดับ เช่น ประโยชน์ หรือสิ่งที่ต้องสังเกต
+Bullet list ใช้ dash `–` — สี `#333333` เหมือน body
 
 ### `step(num, text)`
 Step ที่ hardcode ตัวเลขเอง เช่น `step("1.", "คลิกปุ่ม...")`  
+ตัวเลขและข้อความใช้สี `#333333` เหมือน body ทั้งคู่ — ไม่ใช้สีเขียว  
 ใช้แทน `numbered()` เพื่อให้แทรกหรือลบขั้นตอนได้โดยไม่กระทบตัวเลขอื่น
 
 ### `codeBlock(lines[])`
@@ -96,7 +144,7 @@ codeBlock([
 ```
 
 ### `imagePlaceholder(label)`
-แสดง `📷  label` กึ่งกลาง สี `#BBBBBB`  
+แสดง `📷  label` กึ่งกลาง สี `#BBBBBB` **ทั้งสอง theme**  
 ให้ผู้ใช้แทรกรูปภาพจริงเองหลังได้รับไฟล์  
 ใช้ plain Paragraph (ไม่ใช้ Table) เพื่อให้ลบและแทนที่ได้ง่าย
 
@@ -104,6 +152,7 @@ codeBlock([
 - `headers` — array ชื่อคอลัมน์
 - `rows` — array of array ข้อมูลแต่ละแถว
 - `colWidths` — array ความกว้างแต่ละคอลัมน์ (DXA) ผลรวมควรได้ ~9026
+- Header bg ใช้สีตาม theme ที่เลือก
 
 ```js
 makeTable(
@@ -177,3 +226,46 @@ sp()
 | numbered() กระทบทุก step เมื่อแทรก/ลบ | auto-increment ของ docx numbering | ใช้ `step()` hardcode แทน |
 | code block มี indent ทำให้แคบ | มี `indent: { left, right }` ใน codeBlock | ลบ indent ออก ให้เต็มความกว้าง |
 | load-generator สร้าง load ได้น้อย (~10% ต่อตัว) | curl loop เป็น sequential | ใช้อย่างน้อย 6 ตัวเพื่อให้ CPU รวมเกิน 50% |
+| font size ใหญ่เกินไป ตัดบรรทัดกลางคำ | ใส่ size เป็น 2 เท่าของ design system (เช่น 44 แทน 22) | size ใน docx-js คือ half-points ใช้ตามตาราง design system ตรงๆ |
+| สีเขียวเยอะเกินไปใน body/step/note/placeholder | ใช้ C.h2 หรือสีเขียวกับ element ที่ไม่ใช่ heading | body, note, bullet, step, imagePlaceholder ใช้ `#333333` และ `#BBBBBB` เสมอ |
+
+---
+
+## ⚠️ Critical Rules — ห้ามทำผิดเด็ดขาด
+
+### 1. Font Size — half-points เสมอ
+
+size ใน docx-js คือ **half-points** ไม่ใช่ points
+
+| ต้องการ | ใส่ใน code | ❌ ห้ามใส่ |
+|---|---|---|
+| 11pt (body) | `size: 22` | `size: 44` |
+| 15pt (H1) | `size: 30` | `size: 60` |
+| 12pt (H2) | `size: 24` | `size: 48` |
+| 9pt (code) | `size: 18` | `size: 36` |
+| 28pt (title) | `size: 56` | `size: 112` |
+
+ถ้าใส่ผิด: ตัวอักษรใหญ่ 2 เท่า, title ตัดกลางคำ, เอกสารดูผิดปกติทันที
+
+### 2. โครงสร้างเอกสาร — ต้องมีครบทุกส่วน
+
+เอกสารคู่มือทุกฉบับต้องมีโครงสร้างดังนี้:
+
+```
+1. บทนำ
+   1.1 X คืออะไร
+   1.2 ประโยชน์
+   1.3 Prerequisites  ← ตาราง รายการ / รายละเอียด
+
+2. ขั้นตอนการติดตั้งและทดสอบ
+   ขั้นตอนที่ 1 — ...
+   ขั้นตอนที่ 2 — ...
+   ...
+
+3. ลบ Resources หลังทดสอบ  ← ตารางลำดับการลบ ห้ามข้าม
+```
+
+**ห้ามข้าม:**
+- sub-heading (1.1, 1.2, 1.3) — ถ้าไม่มีเอกสารดูไม่เป็นทางการ
+- Prerequisites table — ผู้อ่านต้องรู้ก่อนเริ่มทำ
+- Cleanup section — ลบตามลำดับป้องกัน HPA พยายาม scale ระหว่างลบ
