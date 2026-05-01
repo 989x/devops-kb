@@ -144,7 +144,7 @@ codeBlock([
 ```
 
 ### `imagePlaceholder(label)`
-แสดง `📷  label` กึ่งกลาง สี `#BBBBBB` **ทั้งสอง theme**  
+แสดง `รูปภาพ - label` กึ่งกลาง สี `#BBBBBB` **ทั้งสอง theme**  
 ให้ผู้ใช้แทรกรูปภาพจริงเองหลังได้รับไฟล์  
 ใช้ plain Paragraph (ไม่ใช้ Table) เพื่อให้ลบและแทนที่ได้ง่าย
 

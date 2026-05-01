@@ -157,7 +157,7 @@ spec:
         app: xops-mysql
     spec:
       securityContext:
-        fsGroup: 27                    # chown volume ให้ mysql user (UID/GID=27)
+        fsGroup: 27                             # chown volume ให้ mysql user (UID/GID=27)
       containers:
         - name: mysql
           image: quay.io/sclorg/mysql-80-c9s:latest
@@ -173,7 +173,7 @@ spec:
             - name: MYSQL_DATABASE
               value: "xopsdb"
             - name: MYSQL_LOWER_CASE_TABLE_NAMES
-              value: "1"               # แก้ case-insensitive FS ของ cluster
+              value: "1"                       # แก้ case-insensitive FS ของ cluster
           resources:
             requests:
               cpu: 100m
@@ -183,7 +183,7 @@ spec:
               memory: 512Mi
           volumeMounts:
             - name: xops-pvc-mysql
-              mountPath: /var/lib/mysql/data   # sclorg ใช้ /data ไม่ใช่ /mysql
+              mountPath: /var/lib/mysql/data  # sclorg ใช้ /data ไม่ใช่ /mysql
   volumeClaimTemplates:
     - metadata:
         name: xops-pvc-mysql
