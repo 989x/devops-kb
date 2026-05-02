@@ -35,7 +35,7 @@
 | H2                | Arial       | 24   | Bold   | `#444444` |
 | H3                | Arial       | 22   | Bold   | `#333333` |
 | Note              | Arial       | 22   | Normal | `#333333` |
-| Code              | Courier New | 18   | Normal | `#2E2E2E` |
+| Code              | Courier New | 22   | Normal | `#2E2E2E` |
 | Image placeholder | Arial       | 20   | Normal | `#BBBBBB` |
 
 - Code block background: `#F5F5F5`
@@ -50,7 +50,7 @@
 | H2                | Arial       | 24   | Bold   | `#3A5E18` |
 | H3                | Arial       | 22   | Bold   | `#2D4A1A` |
 | Note              | Arial       | 22   | Normal | `#333333` |
-| Code              | Courier New | 18   | Normal | `#2E2E2E` |
+| Code              | Courier New | 22   | Normal | `#2E2E2E` |
 | Image placeholder | Arial       | 20   | Normal | `#BBBBBB` |
 
 - Code block background: `#F5F5F5`
@@ -100,32 +100,97 @@
 
 ---
 
+## Document styles override (บังคับทุก Document)
+
+> ⚠️ **ต้องใส่ทุกครั้ง** — ถ้าไม่มี Google Docs จะ reset สีและ font ของ heading เป็น default และ Document outline จะว่างเปล่า
+
+```js
+const doc = new Document({
+  styles: {
+    paragraphStyles: [
+      {
+        id: "Heading1", name: "Heading 1",
+        basedOn: "Normal", next: "Normal", quickFormat: true,
+        run: { font: "Arial", size: 30, bold: true, color: "1E3A0A" },
+        paragraph: { spacing: { before: 480, after: 160 }, outlineLevel: 0 }
+      },
+      {
+        id: "Heading2", name: "Heading 2",
+        basedOn: "Normal", next: "Normal", quickFormat: true,
+        run: { font: "Arial", size: 24, bold: true, color: "3A5E18" },
+        paragraph: { spacing: { before: 320, after: 120 }, outlineLevel: 1 }
+      },
+      {
+        id: "Heading3", name: "Heading 3",
+        basedOn: "Normal", next: "Normal", quickFormat: true,
+        run: { font: "Arial", size: 22, bold: true, color: "2D4A1A" },
+        paragraph: { spacing: { before: 240, after: 80 }, outlineLevel: 2 }
+      },
+    ]
+  },
+  sections: [{ ... }]
+});
+```
+
+> สำหรับ Personal theme ให้เปลี่ยน color เป็น `111111`, `444444`, `333333` ตามลำดับ
+
+---
+
 ## Functions Reference
 
 ### `h1(text)`
-Heading 1 — ใช้เปิด section หลัก เช่น `"1. บทนำ"` หรือ `"2. ขั้นตอนการติดตั้ง"`
+Heading 1 — ต้องใส่ `heading: HeadingLevel.HEADING_1` เสมอ เพื่อให้ Google Docs แสดง outline ได้
+
+```js
+function h1(text) {
+  return new Paragraph({
+    heading: HeadingLevel.HEADING_1,
+    spacing: { before: 480, after: 160 },
+    children: [new TextRun({ text, ...C.h1 })]
+  });
+}
+```
 
 ### `h2(text)`
-Heading 2 — ใช้เปิด sub-section เช่น `"ขั้นตอนที่ 1 — สร้าง Deployment"`
+Heading 2 — ต้องใส่ `heading: HeadingLevel.HEADING_2` เสมอ
+
+```js
+function h2(text) {
+  return new Paragraph({
+    heading: HeadingLevel.HEADING_2,
+    spacing: { before: 320, after: 120 },
+    children: [new TextRun({ text, ...C.h2 })]
+  });
+}
+```
 
 ### `h3(text)`
-Heading 3 — ใช้ label ก่อน code block เช่น `"YAML — Deployment"`  
-ขนาดเท่า body แต่ bold เพื่อไม่ให้หนักเกินไป
+Heading 3 — ต้องใส่ `heading: HeadingLevel.HEADING_3` เสมอ ขนาดเท่า body แต่ bold
+
+```js
+function h3(text) {
+  return new Paragraph({
+    heading: HeadingLevel.HEADING_3,
+    spacing: { before: 240, after: 80 },
+    children: [new TextRun({ text, ...C.h3 })]
+  });
+}
+```
 
 ### `para(text)`
 ข้อความ body ทั่วไป — สี `#333333` ทั้งสอง theme
 
 ### `note(text)`
-ข้อความคำอธิบายเพิ่มเติม — ไม่มี prefix, ไม่มี label นำหน้า  
-สี `#333333` เหมือน body ใช้บอกข้อควรระวังหรือเงื่อนไขพิเศษ  
+ข้อความคำอธิบายเพิ่มเติม — ไม่มี prefix, ไม่มี label นำหน้า
+สี `#333333` เหมือน body ใช้บอกข้อควรระวังหรือเงื่อนไขพิเศษ
 ไม่ใช้ background color หรือ italic เพื่อให้ดู clean
 
 ### `bullet(text)`
 Bullet list ใช้ dash `–` — สี `#333333` เหมือน body
 
 ### `step(num, text)`
-Step ที่ hardcode ตัวเลขเอง เช่น `step("1.", "คลิกปุ่ม...")`  
-ตัวเลขและข้อความใช้สี `#333333` เหมือน body ทั้งคู่ — ไม่ใช้สีเขียว  
+Step ที่ hardcode ตัวเลขเอง เช่น `step("1.", "คลิกปุ่ม...")`
+ตัวเลขและข้อความใช้สี `#333333` เหมือน body ทั้งคู่ — ไม่ใช้สีเขียว
 ใช้แทน `numbered()` เพื่อให้แทรกหรือลบขั้นตอนได้โดยไม่กระทบตัวเลขอื่น
 
 ### `codeBlock(lines[])`
@@ -144,8 +209,8 @@ codeBlock([
 ```
 
 ### `imagePlaceholder(label)`
-แสดง `รูปภาพ - label` กึ่งกลาง สี `#BBBBBB` **ทั้งสอง theme**  
-ให้ผู้ใช้แทรกรูปภาพจริงเองหลังได้รับไฟล์  
+แสดง `รูปภาพ - label` กึ่งกลาง สี `#BBBBBB` **ทั้งสอง theme**
+ให้ผู้ใช้แทรกรูปภาพจริงเองหลังได้รับไฟล์
 ใช้ plain Paragraph (ไม่ใช้ Table) เพื่อให้ลบและแทนที่ได้ง่าย
 
 ### `makeTable(headers[], rows[][], colWidths[])`
@@ -166,7 +231,7 @@ makeTable(
 ```
 
 ### `sp()`
-Blank paragraph สำหรับเพิ่ม visual spacing ระหว่าง element  
+Blank paragraph สำหรับเพิ่ม visual spacing ระหว่าง element
 ใช้ระหว่าง section ย่อยที่ไม่ต้องการ heading แต่ต้องการ breathing room
 
 ---
@@ -200,7 +265,7 @@ sp()
 
 ### แก้ตัวเลข step
 
-เนื่องจากใช้ `step()` แบบ hardcode ให้แก้ตัวเลขในฟังก์ชันนั้นโดยตรง  
+เนื่องจากใช้ `step()` แบบ hardcode ให้แก้ตัวเลขในฟังก์ชันนั้นโดยตรง
 ไม่กระทบ step อื่นในหน้าเดียวกัน
 
 ### Title Page
@@ -228,6 +293,8 @@ sp()
 | load-generator สร้าง load ได้น้อย (~10% ต่อตัว) | curl loop เป็น sequential | ใช้อย่างน้อย 6 ตัวเพื่อให้ CPU รวมเกิน 50% |
 | font size ใหญ่เกินไป ตัดบรรทัดกลางคำ | ใส่ size เป็น 2 เท่าของ design system (เช่น 44 แทน 22) | size ใน docx-js คือ half-points ใช้ตามตาราง design system ตรงๆ |
 | สีเขียวเยอะเกินไปใน body/step/note/placeholder | ใช้ C.h2 หรือสีเขียวกับ element ที่ไม่ใช่ heading | body, note, bullet, step, imagePlaceholder ใช้ `#333333` และ `#BBBBBB` เสมอ |
+| Heading แสดงเป็น "Normal text" ใน Google Docs | ไม่ได้ใส่ `heading: HeadingLevel` ใน Paragraph | เพิ่ม `heading: HeadingLevel.HEADING_1/2/3` ในทุก h1/h2/h3 |
+| Document outline ว่างเปล่าใน Google Docs | ขาด `outlineLevel` ใน paragraphStyles | เพิ่ม `paragraphStyles` override ใน Document พร้อม `outlineLevel: 0/1/2` |
 
 ---
 
@@ -242,12 +309,32 @@ size ใน docx-js คือ **half-points** ไม่ใช่ points
 | 11pt (body) | `size: 22` | `size: 44` |
 | 15pt (H1) | `size: 30` | `size: 60` |
 | 12pt (H2) | `size: 24` | `size: 48` |
-| 9pt (code) | `size: 18` | `size: 36` |
+| 11pt (H3/code) | `size: 22` | `size: 44` |
 | 28pt (title) | `size: 56` | `size: 112` |
 
 ถ้าใส่ผิด: ตัวอักษรใหญ่ 2 เท่า, title ตัดกลางคำ, เอกสารดูผิดปกติทันที
 
-### 2. โครงสร้างเอกสาร — ต้องมีครบทุกส่วน
+### 2. HeadingLevel — ต้องใส่ทุก h1/h2/h3
+
+```js
+// ❌ ผิด — ไม่มี heading property
+new Paragraph({ children: [new TextRun({ text, ...C.h1 })] })
+
+// ✅ ถูก — ต้องมี heading: HeadingLevel.HEADING_N
+new Paragraph({
+  heading: HeadingLevel.HEADING_1,
+  children: [new TextRun({ text, ...C.h1 })]
+})
+```
+
+ถ้าไม่มี: Google Docs แสดง heading เป็น "Normal text" และ outline ว่างเปล่า
+
+### 3. paragraphStyles override — ต้องมีใน Document ทุกฉบับ
+
+ถ้าไม่มี: Google Docs reset สี font ของ heading เป็น default โดยอัตโนมัติ
+ดูตัวอย่างโค้ดในส่วน **Document styles override** ด้านบน
+
+### 4. โครงสร้างเอกสาร — ต้องมีครบทุกส่วน
 
 เอกสารคู่มือทุกฉบับต้องมีโครงสร้างดังนี้:
 
