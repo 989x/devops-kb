@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "01-cloud/openlandscape/prd-platform/okd_statefulset_guid.md",
+                "file": "07-vm/vm_kali_utm_setup.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "okd_statefulset_guid"
+              "title": "vm_kali_utm_setup"
             }
           }
         ]
@@ -156,13 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "01-cloud/openlandscape/prd-platform/okd_statefulset_guid.md",
+                "file": "07-vm/vm_kali_utm_setup.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of okd_statefulset_guid"
+              "title": "Outline of vm_kali_utm_setup"
             }
           }
         ],
@@ -185,9 +185,9 @@
   },
   "active": "72ff21e30481908e",
   "lastOpenFiles": [
+    "01-cloud/openlandscape/prd-platform/okd_statefulset_guid.md",
     "01-cloud/openlandscape/prd-platform/image.png",
     "01-cloud/openlandscape/prd-platform/okd_daemonset_guid.md",
-    "01-cloud/openlandscape/prd-platform/okd_statefulset_guid.md",
     "07-vm/_index.md",
     "01-cloud/openlandscape/prd-platform/statefulset_guid.md",
     "07-vm/vm_kali_utm_setup.md",
