@@ -4,3 +4,5 @@
 .obsidian/*
 !.obsidian/plugins/
 !.obsidian/themes/
+# git rm -r --cached .obsidian/
+# git commit -m "chore: untrack .obsidian files"
