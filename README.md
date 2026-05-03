@@ -113,7 +113,8 @@ DEVOPS-KB/
 
 ---
 
-## 07-vm
+## 07-systems
 
-- [[vm_kali_utm_setup]] — ติดตั้ง Kali Linux บน UTM (Apple Silicon)
-- [[vm_windows_server_utm_setup]] — ติดตั้ง Windows Server บน UTM (Apple Silicon)
+- [[kali_utm_setup]] — ติดตั้ง Kali Linux บน UTM (Apple Silicon)
+- [[windowsserver_utm_setup]] — ติดตั้ง Windows Server บน UTM (Apple Silicon)
+- [[windowsserver_connect_rdp]] — ตั้งค่า Remote Desktop (RDP) บน Windows Server
