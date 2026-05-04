@@ -197,11 +197,35 @@ Step ที่ hardcode ตัวเลขเอง เช่น `step("1.", "�
 ### `codeBlock(lines[])`
 - รับ **array of string** แต่ละ element คือ 1 บรรทัด
 - font **Lucida Sans** size 18 (9pt)
-- render เป็น block เดียว ด้วย `\n` break ระหว่างบรรทัด
+- render แต่ละบรรทัดด้วย **`break: 1`** ใน TextRun แยกต่างหาก — **ห้ามใช้ `\n`** เพราะ docx-js ไม่แปลเป็นบรรทัดใหม่
 - ความกว้างเต็มหน้า **ไม่มี indent** ซ้ายขวา
-- background `#F5F5F5`
+- background `#F5F5F5` พร้อม border รอบ 4 ด้าน สีเทา `#D0D0D0`
+- ใช้ **Table 1x1** แทน Paragraph เพื่อหลีกเลี่ยง pBdr XML order bug ของ docx-js — validate ผ่านทันทีไม่ต้อง fix XML
 
 ```js
+function codeBlock(lines) {
+  const runs = [];
+  lines.forEach((line, i) => {
+    if (i > 0) runs.push(new TextRun({ break: 1, ...C.code }));
+    runs.push(new TextRun({ text: line, ...C.code }));
+  });
+  const b = { style: BorderStyle.SINGLE, size: 4, color: "D0D0D0" };
+  return new Table({
+    width: { size: 9026, type: WidthType.DXA },
+    columnWidths: [9026],
+    margins: { top: 0, bottom: 0 },
+    rows: [new TableRow({
+      children: [new TableCell({
+        borders: { top: b, bottom: b, left: b, right: b },
+        shading: { fill: "F5F5F5", type: ShadingType.CLEAR },
+        margins: { top: 80, bottom: 80, left: 120, right: 120 },
+        children: [new Paragraph({ children: runs })]
+      })]
+    })]
+  });
+}
+
+// การใช้งาน
 codeBlock([
   "apiVersion: v1",
   "kind: Pod",
@@ -294,6 +318,7 @@ sp()
 | imagePlaceholder ลบยาก | ใช้ Table ทำให้ซับซ้อน | ใช้ plain `Paragraph` แทน `Table` |
 | numbered() กระทบทุก step เมื่อแทรก/ลบ | auto-increment ของ docx numbering | ใช้ `step()` hardcode แทน |
 | code block มี indent ทำให้แคบ | มี `indent: { left, right }` ใน codeBlock | ลบ indent ออก ให้เต็มความกว้าง |
+| **code block หลายบรรทัดแสดงเป็นบรรทัดเดียว** | ใช้ `\n` ใน TextRun เดียว — docx-js ไม่แปล `\n` เป็นบรรทัดใหม่ | ใช้ `break: 1` ใน TextRun แยกต่างหากทุกบรรทัด (ดู `codeBlock` ใน Functions Reference) |
 | load-generator สร้าง load ได้น้อย (~10% ต่อตัว) | curl loop เป็น sequential | ใช้อย่างน้อย 6 ตัวเพื่อให้ CPU รวมเกิน 50% |
 | font size ใหญ่เกินไป ตัดบรรทัดกลางคำ | ใส่ size เป็น 2 เท่าของ design system (เช่น 44 แทน 22) | size ใน docx-js คือ half-points ใช้ตามตาราง design system ตรงๆ |
 | สีเขียวเยอะเกินไปใน body/step/note/placeholder | ใช้ C.h2 หรือสีเขียวกับ element ที่ไม่ใช่ heading | body, note, bullet, step, imagePlaceholder ใช้ `#333333` และ `#BBBBBB` เสมอ |
@@ -341,7 +366,22 @@ new Paragraph({
 ถ้าไม่มี: Google Docs reset สี font ของ heading เป็น default โดยอัตโนมัติ
 ดูตัวอย่างโค้ดในส่วน **Document styles override** ด้านบน
 
-### 4. โครงสร้างเอกสาร — ต้องมีครบทุกส่วน
+### 4. codeBlock — ห้ามใช้ `\n` ใน TextRun
+
+```js
+// ❌ ผิด — \n ไม่ทำงานใน docx-js
+new TextRun({ text: lines.join("\n"), ...C.code })
+
+// ✅ ถูก — ใช้ break: 1 แยก TextRun ต่างหากทุกบรรทัด
+lines.forEach((line, i) => {
+  if (i > 0) runs.push(new TextRun({ break: 1, ...C.code }));
+  runs.push(new TextRun({ text: line, ...C.code }));
+});
+```
+
+ถ้าใส่ผิด: code block ทั้งหมดแสดงเป็นบรรทัดเดียวยาวต่อกัน
+
+### 5. โครงสร้างเอกสาร — ต้องมีครบทุกส่วน
 
 เอกสารคู่มือทุกฉบับต้องมีโครงสร้างดังนี้:
 
