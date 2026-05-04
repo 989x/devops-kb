@@ -30,13 +30,13 @@
 
 | Element           | Font        | Size | Weight | Color     |
 |-------------------|-------------|------|--------|-----------|
-| Body              | Arial       | 22   | Normal | `#333333` |
-| H1                | Arial       | 30   | Bold   | `#111111` |
-| H2                | Arial       | 24   | Bold   | `#444444` |
-| H3                | Arial       | 22   | Bold   | `#333333` |
-| Note              | Arial       | 22   | Normal | `#333333` |
-| Code              | Courier New | 22   | Normal | `#2E2E2E` |
-| Image placeholder | Arial       | 20   | Normal | `#BBBBBB` |
+| Body              | Sarabun     | 22   | Normal | `#333333` |
+| H1                | Sarabun     | 30   | Bold   | `#111111` |
+| H2                | Sarabun     | 24   | Bold   | `#444444` |
+| H3                | Sarabun     | 22   | Bold   | `#333333` |
+| Note              | Sarabun     | 22   | Normal | `#333333` |
+| Code              | Lucida Sans | 22   | Normal | `#2E2E2E` |
+| Image placeholder | Sarabun     | 20   | Normal | `#BBBBBB` |
 
 - Code block background: `#F5F5F5`
 - Image placeholder: centered, no background
@@ -45,13 +45,13 @@
 
 | Element           | Font        | Size | Weight | Color     |
 |-------------------|-------------|------|--------|-----------|
-| Body              | Arial       | 22   | Normal | `#333333` |
-| H1                | Arial       | 30   | Bold   | `#1E3A0A` |
-| H2                | Arial       | 24   | Bold   | `#3A5E18` |
-| H3                | Arial       | 22   | Bold   | `#2D4A1A` |
-| Note              | Arial       | 22   | Normal | `#333333` |
-| Code              | Courier New | 22   | Normal | `#2E2E2E` |
-| Image placeholder | Arial       | 20   | Normal | `#BBBBBB` |
+| Body              | Sarabun     | 22   | Normal | `#333333` |
+| H1                | Sarabun     | 30   | Bold   | `#1E3A0A` |
+| H2                | Sarabun     | 24   | Bold   | `#3A5E18` |
+| H3                | Sarabun     | 22   | Bold   | `#2D4A1A` |
+| Note              | Sarabun     | 22   | Normal | `#333333` |
+| Code              | Lucida Sans | 18   | Normal | `#2E2E2E` |
+| Image placeholder | Sarabun     | 20   | Normal | `#BBBBBB` |
 
 - Code block background: `#F5F5F5`
 - Image placeholder: centered, no background
@@ -96,6 +96,7 @@
 | Border      | `SINGLE` size 1 color `#C5E0A0` |
 
 - **Cell padding (ทั้งสอง theme):** top/bottom 80 / left/right 140
+- **Cell body text size:** 20 (10pt) — เท่ากับ header แต่ header เป็น bold
 - **Total column width:** รวมกันควรได้ ~9026 DXA
 
 ---
@@ -111,19 +112,19 @@ const doc = new Document({
       {
         id: "Heading1", name: "Heading 1",
         basedOn: "Normal", next: "Normal", quickFormat: true,
-        run: { font: "Arial", size: 30, bold: true, color: "1E3A0A" },
+        run: { font: "Sarabun", size: 30, bold: true, color: "1E3A0A" },
         paragraph: { spacing: { before: 480, after: 160 }, outlineLevel: 0 }
       },
       {
         id: "Heading2", name: "Heading 2",
         basedOn: "Normal", next: "Normal", quickFormat: true,
-        run: { font: "Arial", size: 24, bold: true, color: "3A5E18" },
+        run: { font: "Sarabun", size: 24, bold: true, color: "3A5E18" },
         paragraph: { spacing: { before: 320, after: 120 }, outlineLevel: 1 }
       },
       {
         id: "Heading3", name: "Heading 3",
         basedOn: "Normal", next: "Normal", quickFormat: true,
-        run: { font: "Arial", size: 22, bold: true, color: "2D4A1A" },
+        run: { font: "Sarabun", size: 22, bold: true, color: "2D4A1A" },
         paragraph: { spacing: { before: 240, after: 80 }, outlineLevel: 2 }
       },
     ]
@@ -178,23 +179,24 @@ function h3(text) {
 ```
 
 ### `para(text)`
-ข้อความ body ทั่วไป — สี `#333333` ทั้งสอง theme
+ข้อความ body ทั่วไป — font Sarabun สี `#333333` ทั้งสอง theme
 
 ### `note(text)`
 ข้อความคำอธิบายเพิ่มเติม — ไม่มี prefix, ไม่มี label นำหน้า
-สี `#333333` เหมือน body ใช้บอกข้อควรระวังหรือเงื่อนไขพิเศษ
+font Sarabun สี `#333333` เหมือน body ใช้บอกข้อควรระวังหรือเงื่อนไขพิเศษ
 ไม่ใช้ background color หรือ italic เพื่อให้ดู clean
 
 ### `bullet(text)`
-Bullet list ใช้ dash `–` — สี `#333333` เหมือน body
+Bullet list ใช้ dash `–` — font Sarabun สี `#333333` เหมือน body
 
 ### `step(num, text)`
 Step ที่ hardcode ตัวเลขเอง เช่น `step("1.", "คลิกปุ่ม...")`
-ตัวเลขและข้อความใช้สี `#333333` เหมือน body ทั้งคู่ — ไม่ใช้สีเขียว
+ตัวเลขและข้อความใช้ font Sarabun สี `#333333` เหมือน body ทั้งคู่ — ไม่ใช้สีเขียว
 ใช้แทน `numbered()` เพื่อให้แทรกหรือลบขั้นตอนได้โดยไม่กระทบตัวเลขอื่น
 
 ### `codeBlock(lines[])`
 - รับ **array of string** แต่ละ element คือ 1 บรรทัด
+- font **Lucida Sans** size 18 (9pt)
 - render เป็น block เดียว ด้วย `\n` break ระหว่างบรรทัด
 - ความกว้างเต็มหน้า **ไม่มี indent** ซ้ายขวา
 - background `#F5F5F5`
@@ -217,7 +219,9 @@ codeBlock([
 - `headers` — array ชื่อคอลัมน์
 - `rows` — array of array ข้อมูลแต่ละแถว
 - `colWidths` — array ความกว้างแต่ละคอลัมน์ (DXA) ผลรวมควรได้ ~9026
-- Header bg ใช้สีตาม theme ที่เลือก
+- Header bg ใช้สีตาม theme ที่เลือก — bold / size 20
+- Body cell ใช้ font Sarabun size **20** (10pt) — เท่า header แต่ไม่ bold
+- รองรับ `\n` ใน cell เพื่อแสดงหลายบรรทัดใน cell เดียว
 
 ```js
 makeTable(
@@ -295,6 +299,8 @@ sp()
 | สีเขียวเยอะเกินไปใน body/step/note/placeholder | ใช้ C.h2 หรือสีเขียวกับ element ที่ไม่ใช่ heading | body, note, bullet, step, imagePlaceholder ใช้ `#333333` และ `#BBBBBB` เสมอ |
 | Heading แสดงเป็น "Normal text" ใน Google Docs | ไม่ได้ใส่ `heading: HeadingLevel` ใน Paragraph | เพิ่ม `heading: HeadingLevel.HEADING_1/2/3` ในทุก h1/h2/h3 |
 | Document outline ว่างเปล่าใน Google Docs | ขาด `outlineLevel` ใน paragraphStyles | เพิ่ม `paragraphStyles` override ใน Document พร้อม `outlineLevel: 0/1/2` |
+| note/warning มี emoji prefix | ใส่ 📌 หรือ ⚠️ นำหน้า text | ใช้ `note(text)` โดยไม่มี prefix — แค่ข้อความเปล่า |
+| cell ใน table มีหลายบรรทัดแต่แสดงเป็น row แยก | ใส่ข้อมูล 2 แถวแทนที่จะเป็น cell เดียว | ใช้ `\n` ใน string เดียวกัน — makeTable รองรับ multiline cell แล้ว |
 
 ---
 
@@ -306,10 +312,11 @@ size ใน docx-js คือ **half-points** ไม่ใช่ points
 
 | ต้องการ | ใส่ใน code | ❌ ห้ามใส่ |
 |---|---|---|
+| 9pt (code) | `size: 18` | `size: 9` |
 | 11pt (body) | `size: 22` | `size: 44` |
 | 15pt (H1) | `size: 30` | `size: 60` |
 | 12pt (H2) | `size: 24` | `size: 48` |
-| 11pt (H3/code) | `size: 22` | `size: 44` |
+| 11pt (H3) | `size: 22` | `size: 44` |
 | 28pt (title) | `size: 56` | `size: 112` |
 
 ถ้าใส่ผิด: ตัวอักษรใหญ่ 2 เท่า, title ตัดกลางคำ, เอกสารดูผิดปกติทันที
