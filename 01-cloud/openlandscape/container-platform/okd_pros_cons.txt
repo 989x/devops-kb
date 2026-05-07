@@ -1,0 +1,20 @@
+OKD (OpenShift Kubernetes Distribution)
+========================================
+
+ข้อดี
+-----
+- Open source ฟรี ไม่มีค่า license
+- Built-in CI/CD ด้วย BuildConfig + ImageStream ไม่ต้องติดตั้งเพิ่ม
+- Web console ครบ ใช้งานง่ายกว่า Kubernetes ดิบ
+- Security เข้มแข็ง — SCC (Security Context Constraints) ป้องกัน container รัน root โดย default
+- Route built-in ไม่ต้องติดตั้ง Ingress Controller เพิ่ม
+- รองรับ multi-tenant ได้ดี แยก namespace + quota ต่อทีมได้
+
+ข้อเสีย
+-------
+- Resource quota เข้มงวด — namespace มี CPU/Memory limit ต่ำ อาจไม่พอสำหรับ app หนัก
+- Container ห้ามรัน root — Dockerfile ที่ใช้ USER root จะพังทันที ต้องปรับก่อน deploy
+- LimitRange default ต่ำ — ถ้าไม่กำหนด resources เองใน Deployment จะได้ค่า default ที่น้อยมาก
+- Build image ใช้ทรัพยากรสูง — build Node.js/Next.js อาจโดน OOM kill ถ้า quota น้อย
+- Community เล็กกว่า Kubernetes ทั่วไป — หา solution ยากกว่า
+- Version upgrade ซับซ้อน ต้องทำผ่าน OKD upgrade path เท่านั้น
