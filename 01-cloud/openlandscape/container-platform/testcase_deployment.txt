@@ -1,0 +1,138 @@
+OKD Deployment Test Cases
+=========================
+Date: 2026-05-06
+Tester: -
+Cluster: apps.cp1.openlandscape.cloud
+Project: cust-demo
+
+================================================================
+REPO 1: vercel/commerce (Next.js 15 canary + Shopify)
+URL: https://github.com/989x/demo-commerce
+================================================================
+
+TC-01: Import from Git — Strategy Detection
+  Steps   : Import Git URL, ดู Builder Image ที่ OKD แนะนำ
+  Expected: OKD detect เป็น Dockerfile strategy
+  Result  : [ ] Pass  [ ] Fail
+
+TC-02: Docker Build — npm install
+  Steps   : Start Build, ดู log ขั้นตอน npm install
+  Expected: npm install สำเร็จภายใน 5 นาที
+  Result  : [ ] Pass  [ ] Fail
+  Note    : ครั้งก่อน OOM ที่ขั้นตอนนี้ ต้องตั้ง memory limit >= 2Gi
+
+TC-03: Docker Build — next build
+  Steps   : ดู log ขั้นตอน npm run build
+  Expected: next build สำเร็จ ไม่ถูก kill
+  Result  : [ ] Pass  [ ] Fail
+  Note    : Next.js 15 canary + Turbopack ใช้ RAM สูง ต้องตั้ง memory limit >= 4Gi
+
+TC-04: Pod Running
+  Steps   : หลัง build complete ดู Deployments → Pods
+  Expected: Pod status เป็น Running 1/1
+  Result  : [ ] Pass  [ ] Fail
+
+TC-05: Web Access
+  Steps   : เปิด Route URL
+  Expected: หน้า Next.js Commerce โหลดได้
+  Result  : [ ] Pass  [ ] Fail
+  Note    : ไม่มี Shopify token — หน้าสินค้าจะว่างเปล่า แต่ UI ต้องโหลดได้
+
+================================================================
+REPO 2: next-ecommerce-shopco (Next.js 14 stable)
+URL: https://github.com/989x/demo-next-ecommerce-shopco
+================================================================
+
+TC-06: Import from Git — Strategy Detection
+  Steps   : Import Git URL, ดู Builder Image ที่ OKD แนะนำ
+  Expected: OKD detect เป็น Dockerfile strategy
+  Result  : [x] Pass  [ ] Fail
+
+TC-07: Docker Build — npm install
+  Steps   : Start Build, ดู log ขั้นตอน npm install
+  Expected: npm install สำเร็จภายใน 3 นาที
+  Result  : [x] Pass  [ ] Fail
+
+TC-08: Docker Build — next build
+  Steps   : ดู log ขั้นตอน npm run build
+  Expected: next build สำเร็จภายใน 10 นาที
+  Result  : [ ] Pass  [x] Fail
+  Note    : OOM kill ที่ "Creating an optimized production build..."
+            แก้แล้ว: BuildConfig memory limit 3Gi + NODE_OPTIONS=--max-old-space-size=2048
+            แต่ยังค้างอยู่ — ต้องสอบสวนเพิ่มเติม
+
+TC-09: Standalone Output
+  Steps   : ดู log ว่ามี .next/standalone ถูกสร้าง
+  Expected: log แสดง standalone output
+  Result  : [ ] Pass  [x] Fail
+  Note    : build ไม่เสร็จ จึงไม่มี .next/standalone
+
+TC-10: Pod Running
+  Steps   : หลัง build complete ดู Deployments → Pods
+  Expected: Pod status เป็น Running 1/1
+  Result  : [ ] Pass  [x] Fail
+
+TC-11: Web Access
+  Steps   : เปิด Route URL
+  Expected: หน้า Shopco ecommerce โหลดได้ เห็นสินค้า mock
+  Result  : [ ] Pass  [x] Fail
+
+================================================================
+REPO 3: ViteShop (React + Vite + Nginx)
+URL: https://github.com/989x/demo-ViteShop
+================================================================
+
+TC-12: Import from Git — Strategy Detection
+  Steps   : Import Git URL, ดู Builder Image ที่ OKD แนะนำ
+  Expected: OKD detect เป็น Dockerfile strategy
+  Result  : [x] Pass  [ ] Fail
+
+TC-13: Docker Build — npm install
+  Steps   : Start Build, ดู log ขั้นตอน npm install
+  Expected: npm install สำเร็จภายใน 2 นาที
+  Result  : [x] Pass  [ ] Fail
+
+TC-14: Docker Build — vite build
+  Steps   : ดู log ขั้นตอน npm run build
+  Expected: vite build สำเร็จภายใน 2 นาที
+  Result  : [x] Pass  [ ] Fail
+
+TC-15: Nginx Stage
+  Steps   : ดู log stage 2 ว่า nginx image build สำเร็จ
+  Expected: stage 2 complete ไม่มี error
+  Result  : [x] Pass  [ ] Fail
+
+TC-16: Pod Running
+  Steps   : หลัง build complete ดู Deployments → Pods
+  Expected: Pod status เป็น Running 1/1
+  Result  : [x] Pass  [ ] Fail
+
+TC-17: Web Access
+  Steps   : เปิด Route URL
+  Expected: หน้า ViteShop โหลดได้ เห็นสินค้า, cart ทำงานได้
+  Result  : [x] Pass  [ ] Fail
+
+TC-18: React Router
+  Steps   : คลิก navigate ไปหน้าต่างๆ แล้ว refresh
+  Expected: หน้าไม่ 404 เพราะ nginx.conf มี try_files fallback
+  Result  : [x] Pass  [ ] Fail
+
+================================================================
+Summary
+================================================================
+
+  Repo                    | Build Time | Memory Used | Status
+  ------------------------|------------|-------------|-------
+  vercel/commerce         |            |             | -
+  next-ecommerce-shopco   | >20 min    | >3Gi        | FAILED (2/6)
+  ViteShop                |            |             | PASSED (7/7)
+
+================================================================
+Known Issues
+================================================================
+
+REPO 2 — next build OOM (TC-08)
+  - next build ค้างที่ "Creating an optimized production build..."
+  - ทดลองแล้ว: memory limit 2Gi, 3Gi + NODE_OPTIONS=--max-old-space-size=2048
+  - ยังไม่ผ่าน — ต้องสอบสวนเพิ่มเติม
+  - แนวทางต่อไป: ลอง --max-old-space-size=1536, หรือ swap เป็น npm run build -- --no-lint
