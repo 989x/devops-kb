@@ -17,6 +17,20 @@
 > - **ส่วนตัว** → ใช้ theme Personal (สีเทา)
 > - **บริษัท** → ใช้ theme Company (สีเขียว OpenLandscape)
 
+### ชื่อไฟล์ Output
+
+ไฟล์ที่สร้างทุกฉบับต้องนำหน้าด้วย `draft_` เสมอ
+
+```
+draft_<ชื่อเอกสาร>.docx
+```
+
+**ตัวอย่าง:**
+- `draft_kubernetes_hpa_guide.docx`
+- `draft_onboarding_handbook.docx`
+
+**เหตุผล:** ป้องกันสับสนกับไฟล์จริงที่ส่งลูกค้าแล้ว — เวลา finalize แค่ rename ลบ `draft_` ออก
+
 ---
 
 ## Design System
@@ -381,7 +395,19 @@ lines.forEach((line, i) => {
 
 ถ้าใส่ผิด: code block ทั้งหมดแสดงเป็นบรรทัดเดียวยาวต่อกัน
 
-### 5. โครงสร้างเอกสาร — ต้องมีครบทุกส่วน
+### 5. ชื่อไฟล์ Output — ต้องขึ้นต้นด้วย `draft_`
+
+```
+// ❌ ผิด
+kubernetes_hpa_guide.docx
+
+// ✅ ถูก
+draft_kubernetes_hpa_guide.docx
+```
+
+ถ้าไม่มี: งงกับไฟล์จริงที่ส่งลูกค้าแล้ว — finalize แล้วค่อย rename ลบ `draft_` ออก
+
+### 6. โครงสร้างเอกสาร — ต้องมีครบทุกส่วน
 
 เอกสารคู่มือทุกฉบับต้องมีโครงสร้างดังนี้:
 
