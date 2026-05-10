@@ -4,92 +4,9 @@
 - ระดับ: Developer ทุกระดับ  
 - อัปเดตล่าสุด: 2025
 
-เมื่อ commit ถูก push ขึ้น remote repository ไปแล้ว การลบหรือย้อนกลับมีผลกระทบต่อสมาชิกในทีมทุกคน  
-จึงต้องเลือกวิธีให้เหมาะกับสถานการณ์ก่อนดำเนินการเสมอ
+เมื่อ commit ถูก push ขึ้น remote repository ไปแล้ว การลบหรือย้อนกลับมีผลกระทบต่อสมาชิกในทีมทุกคน จึงต้องเลือกวิธีให้เหมาะกับสถานการณ์ก่อนดำเนินการเสมอ
 
-> **กฎสำคัญ:** ห้าม force push บน `main` / `master` หรือ branch ที่ทีมใช้ร่วมกัน โดยไม่ได้รับอนุญาตจาก Lead / Repository Owner
-
-```
-commit ที่ต้องการลบอยู่บน branch ไหน?
-│
-├── main / master / branch ที่คนอื่นใช้ร่วม
-│   └── ✅ ใช้ git revert (วิธีที่ 1)
-│
-└── feature branch / branch ส่วนตัว
-    ├── ต้องการเก็บไฟล์ที่แก้ไขไว้   → git reset --soft (วิธีที่ 2a)
-    └── ต้องการลบทิ้งทุกอย่าง      → git reset --hard (วิธีที่ 2b)
-```
-
----
-
-## วิธีที่ 1 — `git revert` (แนะนำสำหรับ shared branch)
-
-สร้าง commit ใหม่ที่ทำหน้าที่ "ย้อนกลับ" การเปลี่ยนแปลงของ commit เดิม  
-ประวัติ (history) ยังคงครบถ้วน ไม่กระทบการทำงานของสมาชิกคนอื่น
-
-```bash
-# 1. ตรวจสอบว่าอยู่บน branch ที่ถูกต้อง
-git branch
-
-# 2. ดู commit ล่าสุดเพื่อยืนยัน
-git log --oneline -5
-
-# 3. ย้อนกลับ commit ล่าสุด
-git revert HEAD
-
-# 4. บันทึก commit message (editor จะเปิดขึ้น — กด :wq เพื่อบันทึกใน vim)
-
-# 5. push ขึ้น remote
-git push
-```
-
-### ผลลัพธ์
-- Remote repository จะมี commit ใหม่เพิ่มขึ้น 1 อัน
-- โค้ดกลับสู่สถานะก่อน commit ที่ต้องการลบ
-- ประวัติสมบูรณ์ — สามารถ audit ได้ในภายหลัง
-
----
-
-## วิธีที่ 2 — `git reset` + Force Push (สำหรับ branch ส่วนตัวเท่านั้น)
-
-> ⚠️ **คำเตือน:** วิธีนี้จะเขียนทับประวัติบน remote ห้ามใช้บน branch ที่มีสมาชิกคนอื่น pull หรือทำงานอยู่
-
-### 2a — เก็บไฟล์ที่แก้ไขไว้ (Soft Reset)
-
-ใช้เมื่อ: ต้องการยกเลิก commit แต่ยังต้องการไฟล์ที่แก้ไขไว้เพื่อแก้ต่อ
-
-```bash
-# 1. ย้อนกลับ 1 commit — ไฟล์ยังอยู่ใน staging area
-git reset --soft HEAD~1
-
-# 2. ตรวจสอบสถานะ
-git status
-
-# 3. force push
-git push --force
-```
-
-### 2b — ลบทิ้งทุกอย่าง (Hard Reset)
-
-ใช้เมื่อ: ต้องการลบ commit และการเปลี่ยนแปลงทั้งหมดออกอย่างถาวร
-
-```bash
-# 1. ย้อนกลับ 1 commit — ไฟล์ที่แก้ไขจะหายไปทั้งหมด
-git reset --hard HEAD~1
-
-# 2. force push
-git push --force
-```
-
-> 💡 **แนะนำ:** ใช้ `git push --force-with-lease` แทน `--force` เพื่อป้องกันการเขียนทับ commit ของคนอื่นที่อาจ push มาในระหว่างนั้น
->
-> ```bash
-> git push --force-with-lease
-> ```
-
----
-
-## สรุปเปรียบเทียบ
+กฎสำคัญ: ห้าม force push บน `main` / `master` หรือ branch ที่ทีมใช้ร่วมกัน โดยไม่ได้รับอนุญาตจาก Lead / Repository Owner
 
 ```mermaid
 flowchart TD
@@ -112,38 +29,77 @@ flowchart TD
 
 ---
 
-## กรณีพิเศษ
+## วิธีที่ 1 — `git revert` (shared branch)
 
-### ลบมากกว่า 1 commit
+สร้าง commit ใหม่ที่ย้อนกลับการเปลี่ยนแปลง ประวัติยังครบ ไม่กระทบสมาชิกคนอื่น
 
+1. ตรวจสอบ branch และ commit ก่อนดำเนินการ
 ```bash
-# ย้อนกลับ 3 commit ล่าสุด (เปลี่ยน 3 เป็นจำนวนที่ต้องการ)
-git reset --soft HEAD~3
-git push --force-with-lease
+git branch
+git log --oneline -5
 ```
 
-### branch ถูก protect ไม่ให้ force push
-
-กรณีนี้ใช้ได้เฉพาะ `git revert` เท่านั้น  
-หากต้องการยกเว้นเป็นกรณีพิเศษ ให้ติดต่อ Repository Owner เพื่อปลด protection ชั่วคราว
-
-### สมาชิกในทีม pull ไปแล้วหลังจากที่ force push
-
-สมาชิกที่ได้รับผลกระทบต้องรัน:
-
+2. ย้อนกลับ commit ล่าสุด (editor จะเปิด — กด `:wq` เพื่อบันทึกใน vim)
 ```bash
-git fetch origin
-git reset --hard origin/<branch-name>
+git revert HEAD
+```
+
+3. Push ขึ้น remote ตามปกติ
+```bash
+git push
 ```
 
 ---
 
-## Checklist ก่อนดำเนินการ
+## วิธีที่ 2 — `git reset` + Force Push (branch ส่วนตัวเท่านั้น)
 
-- [ ] ยืนยันชื่อ branch ที่กำลังทำงานอยู่ด้วย `git branch`
-- [ ] ดู commit ที่ต้องการลบด้วย `git log --oneline -5`
-- [ ] ตรวจสอบว่ามีสมาชิกคนอื่นกำลังทำงานบน branch นี้หรือไม่
-- [ ] หาก force push — แจ้งทีมล่วงหน้าก่อนเสมอ
+วิธีนี้จะเขียนทับประวัติบน remote ห้ามใช้บน branch ที่มีสมาชิกคนอื่น pull หรือทำงานอยู่
+
+### 2a — Soft Reset (เก็บไฟล์ไว้ใน staging)
+
+ยกเลิก commit แต่ไฟล์ที่แก้ไขยังอยู่ พร้อมแก้ต่อ
+
+1. ย้อนกลับ 1 commit
+```bash
+git reset --soft HEAD~1
+```
+
+2. Force push (ใช้ `--force-with-lease` แทน `--force` เพื่อป้องกันการเขียนทับ commit ของคนอื่นที่ push มาในระหว่างนั้น)
+```bash
+git push --force-with-lease
+```
+
+### 2b — Hard Reset (ลบทุกอย่างถาวร)
+
+ลบ commit และการเปลี่ยนแปลงทั้งหมดออก ไม่สามารถกู้คืนได้
+
+1. ย้อนกลับ 1 commit
+```bash
+git reset --hard HEAD~1
+```
+
+2. Force push
+```bash
+git push --force-with-lease
+```
+
+---
+
+## กรณีพิเศษ
+
+ลบมากกว่า 1 commit — เปลี่ยนตัวเลขเป็นจำนวนที่ต้องการ
+```bash
+git reset --soft HEAD~3
+git push --force-with-lease
+```
+
+Branch ถูก protect — ใช้ได้เฉพาะ `git revert` เท่านั้น ติดต่อ Repository Owner หากต้องการปลด protection ชั่วคราว
+
+สมาชิกในทีม pull ไปแล้วหลัง force push — ให้สมาชิกที่ได้รับผลกระทบรัน
+```bash
+git fetch origin
+git reset --hard origin/<branch-name>
+```
 
 ---
 
