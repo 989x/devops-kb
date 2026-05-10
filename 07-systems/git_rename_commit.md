@@ -1,87 +1,82 @@
-# Git: Rename Commit Message
+# Git: แก้ไข Commit Message
 
-## เมื่อไหร่ที่ใช้
+- หมวดหมู่: Git / Version Control  
+- ระดับ: Developer ทุกระดับ  
+- อัปเดตล่าสุด: 2025
 
-- พิมพ์ชื่อ commit ผิด เช่น `Docs:` → `docs:`
-- ต้องการแก้ให้ตรง commit convention ของทีม
+การแก้ commit message หลัง push ไปแล้วจะทำให้ **commit hash เปลี่ยน**  
+และมีผลต่อสมาชิกในทีมที่ pull branch นี้ไปแล้ว
+
+```mermaid
+flowchart TD
+    A([ต้องการแก้ commit message?]) --> B{commit ไหน?}
+
+    B -->|commit ล่าสุด| C[git commit --amend]
+    B -->|commit เก่ากว่านั้น| D[git rebase -i]
+
+    C --> E["force push\nเร็ว / ตรงไปตรงมา"]
+    D --> F["force push\nเลือกได้ว่าจะแก้ commit ไหน"]
+
+    style C fill:#2d6a4f,color:#fff
+    style D fill:#f4a261,color:#fff
+```
 
 ---
 
-## วิธีที่ 1: แก้ commit ล่าสุด (amend)
+## วิธีที่ 1 — `git commit --amend` (แก้ commit ล่าสุด)
+
+1. แก้ message
 
 ```bash
 git commit --amend -m "docs: ชื่อใหม่ที่ต้องการ"
 ```
 
-จากนั้น force push:
+2. Force push
 
 ```bash
-git push --force-with-lease origin main
+git push --force-with-lease origin <branch-name>
 ```
 
 ---
 
-## วิธีที่ 2: แก้ commit เก่า (interactive rebase)
+## วิธีที่ 2 — `git rebase -i` (แก้ commit เก่า)
 
-### Step 1: เปิด rebase โดยระบุจำนวน commit ย้อนหลัง
-
-```bash
-git rebase -i HEAD~2
-```
-
-> เปลี่ยน `2` ให้ตรงกับจำนวน commit ที่ต้องการย้อนกลับไป
-
-### Step 2: เปลี่ยน `pick` → `reword` หน้า commit ที่ต้องการแก้
-
-```
-reword daf210f # Docs: add testcase_deployment.txt   ← เปลี่ยนตรงนี้
-pick 664cdaa # docs: add okd pros/cons...
-```
-
-### Step 3: บันทึกออกจาก editor แล้ว Vim จะเปิดขึ้นมาอีกรอบ
-
-แก้ชื่อ commit ให้ถูกต้อง จากนั้นบันทึก
-
-### Step 4: Force push
+1. เปิด interactive rebase — เปลี่ยน `3` เป็นจำนวน commit ที่ต้องการย้อนไป
 
 ```bash
-git push --force-with-lease origin main
+git rebase -i HEAD~3
+```
+
+2. ใน editor — เปลี่ยน `pick` → `reword` หน้า commit ที่ต้องการแก้ แล้วบันทึกและออก
+
+```
+reword daf210f docs: add testcase_deployment.txt
+pick   664cdaa docs: add okd pros/cons
+```
+
+3. ใช้ VIM อีกครั้ง editor จะแสดง commit message ที่เลือกไว้ แก้ชื่อให้ถูกต้อง แล้วบันทึกและออก (`i` → แก้ → `Esc` → `:wq`)
+
+```
+docs: add testcase_deployment.txt
+```
+
+4. Force push
+
+```bash
+git push --force-with-lease origin <branch-name>
 ```
 
 ---
 
-## Vim Commands
+## Checklist ก่อนดำเนินการ
 
-| คำสั่ง | ความหมาย |
-|--------|----------|
-| `i` | เข้า Insert mode (แก้ไขได้) |
-| `Esc` | ออกจาก Insert mode |
-| `:wq` | บันทึกและออก |
-| `:q!` | ออกโดยไม่บันทึก (ยกเลิก) |
+- [ ] ยืนยันชื่อ branch ด้วย `git branch`
+- [ ] ดู commit ที่ต้องการแก้ด้วย `git log --oneline -5`
+- [ ] แจ้งทีมหากมีคนอื่นใช้ branch นี้ร่วมด้วย
 
 ---
 
-## ข้อควรระวัง
+## อ้างอิง
 
-- การแก้ commit เก่าจะทำให้ **commit hash เปลี่ยน**
-- ต้อง `--force-with-lease` ทุกครั้งหลัง rebase
-- ถ้ามีคนอื่น pull branch นี้ไปแล้ว **ควรแจ้งทีมก่อน** force push
-
----
-
-## ตัวอย่างจริง
-
-แก้ commit ที่พิมพ์ `Docs:` (D ตัวใหญ่) → `docs:` (d ตัวเล็ก)
-
-```bash
-# 1. เปิด rebase
-git rebase -i HEAD~2
-
-# 2. ใน editor เปลี่ยน
-#    pick → reword สำหรับ commit ที่ต้องการแก้
-
-# 3. Vim เปิดอีกครั้ง → แก้ชื่อ → :wq
-
-# 4. Push
-git push --force-with-lease origin main
-```
+- [Git Documentation — git-commit --amend](https://git-scm.com/docs/git-commit#Documentation/git-commit.txt---amend)
+- [Git Documentation — git-rebase](https://git-scm.com/docs/git-rebase)
