@@ -4,11 +4,13 @@ tags: [devops, knowledge-base, index]
 type: readme
 status: stable
 created: 2026-04-25
+updated: 2026-05-10
 ---
 
 # DEVOPS-KB
 
-Knowledge base for DevOps and backend engineering — cloud infrastructure, containers, service integrations, security, and internal standards
+Knowledge base for DevOps and backend engineering — cloud infrastructure,
+containers, service integrations, security, and internal standards.
 
 ---
 
@@ -16,14 +18,15 @@ Knowledge base for DevOps and backend engineering — cloud infrastructure, cont
 
 ```
 DEVOPS-KB/
-├── 00-meta/               # Platform & KB documentation
-├── 01-cloud/              # Cloud providers & infrastructure
+├── 00-meta/               # Platform overview & KB documentation
+├── 01-cloud/              # Cloud providers (AWS, Cloudflare, DO, Inet)
 ├── 02-containers/         # Docker & Kubernetes
-├── 03-internal-services
-├── 04-service-apis/       # Third-party service integrations
+├── 03-internal-services/  # Internal services (go-fiber, picshare, redis)
+├── 04-service-apis/       # Third-party integrations (Wasabi, Google Maps)
 ├── 05-security/           # Security scanning & hardening
-├── 06-prompts/            # Personal AI prompts & conventions
-└── 07-vm/                 # Virtual machines on macOS (UTM)
+├── 06-prompts/            # AI prompt templates & personal conventions
+├── 07-systems/            # OS & VM setup (Kali, Windows Server on UTM)
+└── 08-git/                # Git workflow, conventions & tips
 ```
 
 ---
@@ -42,6 +45,9 @@ DEVOPS-KB/
 - [[aws/ec2_overview]] — ภาพรวม EC2 วิธี connect และ deploy
 - [[aws/ec2_running_node]] — รัน Node.js / NestJS บน EC2 ด้วย PM2
 
+### Cloudflare
+- [[cloudflare/_index]] — Cloudflare overview
+
 ### DigitalOcean
 - [[digitalocean/_index]] — DigitalOcean overview
 - [[digitalocean/droplets_setup_env]] — ตั้งค่า environment บน Droplet
@@ -55,13 +61,16 @@ DEVOPS-KB/
 - [[inet/registry_docker]] — Docker registry
 - [[inet/server_deploy]] — Deploy server
 
+### Openlandscape
+- [[openlandscape/_index]] — Openlandscape overview
+
 ---
 
 ## 02-containers
 
 ### Docker
 - [[docker/_index]] — Docker overview
-- [[docker/nextjs_dockerfile_comparison]] — เปรียบเทียบ Dockerfile แบบต่าง ๆ สำหรับ Next.js
+- [[docker/nextjs_dockerfile_comparison]] — เปรียบเทียบ Dockerfile แบบต่างๆ สำหรับ Next.js
 - [[docker/nextjs_dockerfile_example]] — ตัวอย่าง Dockerfile สำหรับ Next.js
 - [[docker/nextjs_dockerfile_prod]] — Dockerfile สำหรับ production
 - [[docker/nextjs_dockerfile_tutorial]] — Tutorial การสร้าง Dockerfile
@@ -79,6 +88,8 @@ DEVOPS-KB/
 
 ## 03-internal-services
 
+- [[03-internal-services/_index]] — Internal services overview
+
 ---
 
 ## 04-service-apis
@@ -89,7 +100,6 @@ DEVOPS-KB/
 - [[wasabi/wasabi_connect_nodejs]] — เชื่อมต่อผ่าน AWS SDK (Node.js, Java, Python)
 - [[wasabi/wasabi_upload_put]] — Upload file ด้วย PutObjectCommand
 - [[wasabi/wasabi_presigner_guide]] — สร้าง Signed URL
-- [[wasabi/wasabi_presigner_response]] — ตัวอย่าง response จาก presigner
 - [[wasabi/wasabi_policy]] — Bucket policy (IAM & public access)
 - [[wasabi/wasabi_placeholder_standard]] — มาตรฐาน placeholder
 - [[wasabi/ts_connect_endpoint]] — แก้ปัญหา EndpointError & InvalidAccessKeyId
@@ -118,3 +128,11 @@ DEVOPS-KB/
 - [[kali_utm_setup]] — ติดตั้ง Kali Linux บน UTM (Apple Silicon)
 - [[windowsserver_utm_setup]] — ติดตั้ง Windows Server บน UTM (Apple Silicon)
 - [[windowsserver_connect_rdp]] — ตั้งค่า Remote Desktop (RDP) บน Windows Server
+
+---
+
+## 08-git
+
+- [[git/_index]] — Git overview & branching strategy
+- [[git/git_remove_last_commit]] — ยกเลิก commit ล่าสุด
+- [[git/git_rename_commit]] — แก้ไข commit message
