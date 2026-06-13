@@ -4,7 +4,7 @@ tags: [devops, knowledge-base, index]
 type: readme
 status: stable
 created: 2026-04-25
-updated: 2026-05-10
+updated: 2026-06-14
 ---
 
 # DEVOPS-KB
@@ -18,6 +18,9 @@ containers, service integrations, security, and internal standards.
 
 ```
 DEVOPS-KB/
+├── assets/                # Static assets & reference files
+│   ├── mnlab/             # MNLAB platform assets
+│   └── windowsserver/     # Windows Server assets
 ├── 00-meta/               # Platform overview & KB documentation
 ├── 01-cloud/              # Cloud providers (AWS, Cloudflare, DO, Inet)
 ├── 02-containers/         # Docker & Kubernetes
@@ -26,8 +29,16 @@ DEVOPS-KB/
 ├── 05-security/           # Security scanning & hardening
 ├── 06-prompts/            # AI prompt templates & personal conventions
 ├── 07-systems/            # OS & VM setup (Kali, Windows Server on UTM)
-└── 08-git/                # Git workflow, conventions & tips
+├── 08-git/                # Git workflow, conventions & tips
+└── 09-mail/               # Mail server (Zimbra)
 ```
+
+---
+
+## assets
+
+- `assets/mnlab/` — MNLAB platform reference assets
+- `assets/windowsserver/` — Windows Server reference assets
 
 ---
 
@@ -136,3 +147,11 @@ DEVOPS-KB/
 - [[git/_index]] — Git overview & branching strategy
 - [[git/git_remove_last_commit]] — ยกเลิก commit ล่าสุด
 - [[git/git_rename_commit]] — แก้ไข commit message
+
+---
+
+## 09-mail
+
+### Zimbra
+- [[mail/zimbra_cleanup_guide]] — ล้างเมลเพื่อเพิ่มพื้นที่ (ลบโดยตรง, ค้นหา, admin)
+- [[mail/zimbra_filter_guide]] — ตั้งค่า filter จัดการเมลแจ้งเตือนระบบ
