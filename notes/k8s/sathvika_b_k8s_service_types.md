@@ -59,6 +59,24 @@ tags:
 
 ---
 
+## ภาพรวมทั้งระบบ: หนึ่งภาพที่มีครบทุก Service type
+
+ก่อนลงรายละเอียดแต่ละ type ลองดูภาพนี้ก่อน เป็นภาพรวมที่มี Service ทุกแบบที่จะพูดถึงปรากฏอยู่ในที่เดียว (ภาพเดียวกันนี้จะกลับมาอีกครั้งใน section LoadBalancer ด้านล่าง)
+
+![ภาพรวมทุก Service type](https://miro.medium.com/v2/format:webp/1*_RPNetx9uLv4D-i9KapgxA.png)
+
+ลองไล่ตาม traffic ทีละจุด:
+
+1. Users เปิด myapp.com หรือยิงไปที่ Node IP:30001 — ฝั่งนี้คือจุดที่ NodePort เข้ามาเกี่ยวข้อง ถ้าไม่มี LoadBalancer ก็ยิงตรงมาที่ Node IP + nodePort แบบนี้ได้เลย
+2. traffic ไปถึง loadbalancer (LoadBalancer Service) — เป็น Service ตัวแรกที่ traffic จากนอกคลัสเตอร์เจอ คอยกระจายงานต่อ
+3. loadbalancer ส่งต่อไปยัง frontend Pods (nginx) ที่กระจายอยู่บน NodeA/B/C
+4. frontend Pod เรียก backend ผ่าน service: clusterip — นี่คือจุดที่ ClusterIP ทำงาน คือการสื่อสารกันภายในคลัสเตอร์ ไม่เกี่ยวกับโลกภายนอกเลย
+5. backend (Node.js Pods) เชื่อมไปยัง db — ถ้า db อยู่ในคลัสเตอร์ก็ผ่าน ClusterIP อีกตัว แต่ถ้าเป็น managed database ภายนอก (เช่น RDS) จะผ่าน ExternalName Service แทน
+
+สรุปคือภาพเดียวนี้มีทั้ง NodePort/LoadBalancer (ทางเข้าจากนอก), ClusterIP (การสื่อสารภายใน), และ ExternalName (ถ้ามี dependency ภายนอก) ครบ ส่วนที่เหลือของไฟล์นี้จะลงรายละเอียดของแต่ละจุดในภาพนี้ทีละ type
+
+---
+
 ## 1. NodePort
 
 วิธีที่ง่ายที่สุดในการ expose แอปออกไปนอกคลัสเตอร์ (สำหรับ dev/test)
@@ -67,6 +85,10 @@ tags:
 - targetPort → port ที่ Pod listen อยู่ (เช่น 80)
 - port → port ของ service ที่ใช้คุยกันภายในคลัสเตอร์
 - nodePort → port ที่เปิดให้เข้าถึงจากนอกคลัสเตอร์ ผ่านทุก Node ในช่วง `30000–32767`
+
+จุดในภาพรวม: คือทางที่ Users ยิงมาที่ Node IP:30001 ตรงๆ (กรณีไม่มี LoadBalancer)
+
+เปรียบเหมือน: ประตูหลังบ้านที่มีเลขห้องตายตัว (30000-32767) — คนนอกต้องรู้ทั้งที่อยู่บ้าน (Node IP) และเลขห้อง (nodePort) ถึงจะเข้าได้
 
 ไดอะแกรม:
 
@@ -173,6 +195,10 @@ curl localhost:30001
 
 ทำไมต้องมี: เพราะ Pod IP เป็นแบบ ephemeral (เปลี่ยนทุกครั้งที่ restart) ClusterIP จึงเป็น static endpoint ให้แทน
 
+จุดในภาพรวม: คือเส้น frontend Pod → service: clusterip → backend Pod ในภาพ
+
+เปรียบเหมือน: เบอร์ต่อภายในออฟฟิศ — คนในออฟฟิศโทรหากันด้วยเบอร์ต่อได้เลย แต่คนนอกองค์กรโทรเข้ามาที่เบอร์ต่อตรงๆไม่ได้ ต้องผ่านเบอร์กลางก่อน
+
 ![clusterip diagram](https://miro.medium.com/v2/format:webp/1*1X9QxiW7MPyTG69W1pGnZw.png)
 
 แผนภาพแสดงการทำงานของ ClusterIP: traffic ภายในคลัสเตอร์ถูกส่งผ่าน ClusterIP ไปยัง Pods ที่ตรงกับ selector
@@ -232,6 +258,10 @@ kubectl get ep
 - คลาวด์จะ provision external load balancer ให้
 - กระจาย traffic ไปยัง Pods ที่อยู่หลัง service นี้
 
+จุดในภาพรวม: คือ loadbalancer ที่อยู่บนสุดของภาพ รับ traffic จาก Users/myapp.com ก่อนกระจายไปยัง frontend Pods (ภาพเดียวกับที่เห็นในส่วนภาพรวมต้นไฟล์)
+
+เปรียบเหมือน: พนักงาน reception ที่มีเบอร์กลางเบอร์เดียว คนนอกโทรเข้าที่เบอร์นี้ reception จะโยกสายไปยังพนักงาน (Pod) ที่ว่างให้เอง
+
 ![loadbalancer diagram](https://miro.medium.com/v2/format:webp/1*_RPNetx9uLv4D-i9KapgxA.png)
 
 แผนภาพแสดงภาพรวมทั้งระบบ: traffic จาก internet (ผ่าน myapp.com หรือ Node IP:30001) เข้าทาง loadbalancer ก่อนกระจายไปยัง frontend Pods (nginx) บน NodeA/NodeB/NodeC จากนั้น frontend เรียก backend ผ่าน service: clusterip ไปยัง Pods Node.js และ db
@@ -278,6 +308,10 @@ kubectl get svc
 
 - map ชื่อ service ไปยัง external DNS name
 - ไม่มีการจอง IP ภายในคลัสเตอร์
+
+จุดในภาพรวม: คือเส้นจาก backend ไปยัง db ในกรณีที่ db เป็น managed database ภายนอกคลัสเตอร์
+
+เปรียบเหมือน: เบอร์ลัด (speed dial) ในออฟฟิศที่กดแล้วต่อตรงไปยังบริษัทคู่ค้าภายนอกทันที โดยที่คนในออฟฟิศไม่ต้องรู้เบอร์จริงของอีกฝั่ง
 
 ### ตัวอย่าง `external.yaml`
 
