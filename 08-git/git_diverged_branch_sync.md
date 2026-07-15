@@ -1,12 +1,42 @@
 # Git: แก้ปัญหา Branch แยกออกจากกัน (Divergent Branches) ตอน Sync/Push
 
+## สารบัญ
+
+- [ปัญหาที่พบ](#ปัญหาที่พบ)
+- [วิธีที่ 1 — Merge (`--no-rebase`) แนะนำสำหรับ branch ที่ push ไปแล้ว](#วิธีที่-1--merge---no-rebase-แนะนำสำหรับ-branch-ที่-push-ไปแล้ว)
+- [วิธีที่ 2 — Rebase (`--rebase`) สำหรับประวัติที่ต้องการให้เรียงเป็นเส้นตรง](#วิธีที่-2--rebase---rebase-สำหรับประวัติที่ต้องการให้เรียงเป็นเส้นตรง)
+- [ตรวจสอบก่อน Pull (แนะนำ)](#ตรวจสอบก่อน-pull-แนะนำ)
+- [อ้างอิง](#อ้างอิง)
+
+---
+
+## ปัญหาที่พบ
+
 เมื่อทั้ง local และ remote branch ต่างมี commit ที่อีกฝ่ายไม่มี (เช่น local push ค้างไว้ 1 commit
 และ remote มี commit ใหม่เข้ามา 1 commit) การรัน `git pull` จะล้มเหลวพร้อมข้อความ:
 
 ```
 hint: You have divergent branches and need to specify how to reconcile them.
+hint: You can do so by running one of the following commands sometime before
+hint: your next pull:
+hint:
+hint:   git config pull.rebase false  # merge
+hint:   git config pull.rebase true   # rebase
+hint:   git config pull.ff only       # fast-forward only
+hint:
+hint: You can replace "git config" with "git config --global" to set a default
+hint: preference for all repositories. You can also pass --rebase, --no-rebase,
+hint: or --ff-only on the command line to override the configured default per
+hint: invocation.
 fatal: Need to specify how to reconcile divergent branches.
 ```
+
+> บรรทัดที่สำคัญที่สุด (ที่เหลือเป็นแค่คำแนะนำวิธีตั้งค่า)
+> ```
+> hint: You have divergent branches and need to specify how to reconcile them.
+> fatal: Need to specify how to reconcile divergent branches.
+> ```
+> สรุป: local และ remote มี commit คนละชุดกัน git จึงหยุดทำงานเพราะไม่รู้ว่าจะ merge หรือ rebase
 
 git ไม่สามารถตัดสินใจเองได้ว่าจะ **merge** หรือ **rebase** จึงต้องระบุวิธีให้ชัดเจน
 
