@@ -9,7 +9,7 @@ tags:
 type: guide
 status: stable
 created: 2026-04-22
-updated: 2026-05-02
+updated: 2026-07-28
 related:
   - "[[_index]]"
 ---
@@ -410,6 +410,28 @@ Write the changes to disks?
 **สาเหตุ:** ยังไม่ได้ถอด ISO ออกก่อน reboot
 
 **แก้ไข:** หยุด VM → ไปที่ **CD/DVD → Clear** → start VM ใหม่
+
+---
+
+### VM ออกเน็ตไม่ได้ (ping / curl ค้าง แม้ resolve DNS ได้)
+
+**อาการ:** `ip a` และ `ip route` ปกติทุกอย่าง (มี IP, มี default route) แก้ `/etc/resolv.conf` ใส่ DNS แล้วก็ resolve โดเมนได้ แต่ `ping` ขึ้น `100% packet loss` และ `curl -v` ค้างที่ `Trying <IP>:443...` ไม่ขยับต่อ
+
+**สาเหตุ:** Network Mode เป็น **Shared Network** แล้วตัว network helper process ของ UTM ค้าง (มักเกิดหลัง suspend/resume VM) ทำให้ NAT ไม่ forward traffic ออกไปจริง ทั้ง ICMP และ TCP
+
+**แก้ไข:** เปลี่ยน Network Mode เป็น **Emulated VLAN** แทน
+
+1. หยุด VM ให้สนิทก่อน (ไม่ใช่ suspend)
+2. ไปที่ VM Settings → **Network**
+3. เปลี่ยน **Network Mode** จาก `Shared Network` เป็น `Emulated VLAN`
+
+![[utm-network-settings-emulated-vlan.webp]]
+
+4. คลิก **Save**
+5. **Quit UTM ทั้งแอป (Cmd+Q)** แล้วเปิดใหม่ก่อน start VM อีกครั้ง — ขั้นนี้สำคัญ เพราะ network helper ตัวเดิมที่ค้างจะไม่รีเซ็ตถ้าปิดแค่หน้าต่าง VM
+6. start VM แล้วทดสอบ `ping 8.8.8.8` — ควรได้ `0% packet loss`
+
+> **หมายเหตุ:** ถ้าเปลี่ยนเป็น Emulated VLAN แล้วยังไม่ได้ผล ให้ลองสลับเป็น **Bridged (Advanced)** แทน โดยเลือก bridged interface เป็น interface หลักของ Mac (ปกติชื่อ `en0`) วิธีนี้ VM จะได้ IP จาก router ตรงเหมือนเป็นเครื่องหนึ่งในเครือข่าย
 
 ---
 
