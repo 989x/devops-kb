@@ -1,55 +1,71 @@
 # YouTube Transcript Extractor
 
-ดึง transcript จากวิดีโอ YouTube พร้อม timestamp บันทึกเป็น `transcript.txt`
+ดึง transcript จากวิดีโอ YouTube พร้อม timestamp เป็นไฟล์ `transcript.txt`
 
-รันบน Google Colab: https://colab.research.google.com/
+## Setup (one-time)
 
-## วิธีใช้
+เปิด Terminal แล้ว `cd` ไปที่โฟลเดอร์ที่จะเก็บสคริปต์ (ลากโฟลเดอร์จาก Finder มาวางบน Terminal เพื่อเอา path จริง) เช่น:
 
-1. เปิด Colab → New notebook
-2. วางโค้ดด้านล่างทั้งหมดลงเซลล์เดียว
-3. แก้ `video_id` เป็นวิดีโอที่ต้องการ (เอามาจาก URL เช่น `youtube.com/watch?v=FqnSAa2KmBI` → `video_id = "FqnSAa2KmBI"`)
-4. กด Run (▶ หรือ Shift+Enter)
-5. รอจนเห็น `Done. Saved to transcript.txt`
-6. ดาวน์โหลดไฟล์ — รันโค้ดนี้ต่อในเซลล์ใหม่:
+```bash
+cd ~/Desktop/demo/youtube
+```
 
-```python
-from google.colab import files
-files.download("transcript.txt")
+จากนั้นรัน:
+
+```bash
+python3 -m venv yt-env
+source yt-env/bin/activate
+pip install youtube-transcript-api
 ```
 
 ## Script
 
-```python
-!pip install -q youtube-transcript-api
+สร้างไฟล์ `extract_transcript.py` ในโฟลเดอร์เดียวกัน ใส่โค้ดนี้:
 
+```python
 from youtube_transcript_api import YouTubeTranscriptApi
 
-video_id = "FqnSAa2KmBI"
+video_id = "FqnSAa2KmBI"   # แก้เป็น video id ที่ต้องการ
 chunk_seconds = 60
 
 api = YouTubeTranscriptApi()
-transcript = api.fetch(video_id)
+transcript_list = api.list(video_id)
+
+try:
+    transcript_obj = transcript_list.find_transcript(["th", "en"])
+except Exception:
+    transcript_obj = next(iter(transcript_list))
+
+transcript = transcript_obj.fetch()
+
+output_file = f"transcript_{video_id}.txt"
 
 chunks = {}
 for entry in transcript:
     bucket = int(entry.start // chunk_seconds) * chunk_seconds
     chunks.setdefault(bucket, []).append(entry.text)
 
-with open("transcript.txt", "w", encoding="utf-8") as f:
+with open(output_file, "w", encoding="utf-8") as f:
     for bucket in sorted(chunks.keys()):
-        minutes = bucket // 60
-        seconds = bucket % 60
+        minutes, seconds = divmod(bucket, 60)
         text = " ".join(chunks[bucket])
         f.write(f"[{minutes:02d}:{seconds:02d}] {text}\n\n")
 
-print("Done. Saved to transcript.txt")
+print(f"Done. Saved to {output_file} (language: {transcript_obj.language})")
 ```
 
-ถ้าอยากให้ไฟล์เก็บถาวรไม่หายตอนปิด session ให้เมาต์ Google Drive ก่อนเขียนไฟล์:
+video_id เอามาจาก URL เช่น `youtube.com/watch?v=FqnSAa2KmBI` → `FqnSAa2KmBI`
 
-```python
-from google.colab import drive
-drive.mount('/content/drive')
-# แล้วเปลี่ยน path ตอน open() เป็น "/content/drive/MyDrive/transcript.txt"
+## Run
+
+```bash
+cd ~/Desktop/demo/youtube
+source yt-env/bin/activate
+python3 extract_transcript.py
 ```
+
+ไฟล์ transcript_(video_id).txt จะอยู่ในโฟลเดอร์เดียวกัน เปิดดูได้เลย
+
+---
+
+ครั้งต่อไปแค่รัน 3 บรรทัดในหัวข้อ "Run" ไม่ต้องติดตั้งใหม่
